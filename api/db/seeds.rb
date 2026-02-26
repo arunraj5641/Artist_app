@@ -10,7 +10,7 @@ User.destroy_all
 
 puts "Creating Admin..."
 User.create!(
-  email: 'admin@artistapp.com',
+  email: 'admin@jothis.com',
   password: 'password123',
   role: 'admin',
   status: 'active'

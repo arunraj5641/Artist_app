@@ -2,7 +2,33 @@ module Api
   module V1
     class BookingsController < ApplicationController
       include Crudable
-      load_and_authorize_resource
+      load_and_authorize_resource except: [:create]
+
+      def create
+        @resource = Booking.new(resource_params)
+        
+        # Auto-assign customer_id if current user is a customer
+        if current_user.customer?
+          @resource.customer_id = current_user.id
+        end
+
+        # Auto-assign artist_profile_id from the service if missing
+        if @resource.artist_profile_id.blank? && @resource.service_id.present?
+          service = Service.find_by(id: @resource.service_id)
+          @resource.artist_profile_id = service.artist_profile_id if service
+        end
+
+        # Default status
+        @resource.status ||= 'pending'
+
+        authorize! :create, @resource
+
+        if @resource.save
+          render_success(data: @resource, status: :created)
+        else
+          render_error(errors: @resource.errors.full_messages)
+        end
+      end
 
       def index
         @bookings = paginate(collection)

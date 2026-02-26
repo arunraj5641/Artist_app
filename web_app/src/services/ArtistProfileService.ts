@@ -11,6 +11,10 @@ export interface ArtistProfile {
     approved_at: string | null;
     created_at: string;
     updated_at: string;
+    user?: { id: string; email: string; role: string };
+    services?: any[];
+    bookings?: any[];
+    reviews?: any[];
 }
 
 export const ArtistProfileService = {
