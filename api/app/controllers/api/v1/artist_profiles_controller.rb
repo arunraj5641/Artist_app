@@ -7,17 +7,12 @@ module Api
       def index
         authorize! :read, ArtistProfile
         profiles = paginate(collection)
-        render json: {
-          success: true,
-          message: 'Artist profiles retrieved successfully',
-          data: profiles.map { |p| serialize_profile(p) },
-          meta: pagination_meta(profiles)
-        }
+        render_paginated_success(profiles, message: 'Artist profiles retrieved successfully', serialized_data: profiles.map { |p| serialize_profile(p) })
       end
 
       def show
         authorize! :read, @resource
-        render json: { success: true, message: 'Success', data: serialize_profile(@resource) }
+        render_success(data: serialize_profile(@resource))
       end
 
       private

@@ -60,8 +60,7 @@ module Api
         # load_and_authorize_resource sets @booking and handles authorization
         # Just need to destroy it and respond
         authorize! :destroy, @booking
-        @booking.destroy
-        render json: { success: true, message: 'Booking deleted successfully' }
+        render_success(message: 'Booking deleted successfully')
       end
 
       private

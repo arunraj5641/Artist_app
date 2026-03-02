@@ -15,11 +15,11 @@ module Paginatable
     }
   end
 
-  def render_paginated_success(scope, message: 'Success', status: :ok, extra_meta: {})
+  def render_paginated_success(scope, message: 'Success', status: :ok, extra_meta: {}, serialized_data: nil)
     render json: {
       success: true,
       message: message,
-      data: scope,
+      data: serialized_data || scope,
       meta: pagination_meta(scope).merge(extra_meta)
     }, status: status
   end
