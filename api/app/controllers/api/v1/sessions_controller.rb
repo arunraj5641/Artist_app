@@ -13,6 +13,7 @@ module Api
             data: { 
               token: token, 
               exp: time.strftime("%m-%d-%Y %H:%M"),
+              id: @user.id,
               email: @user.email,
               role: @user.role
             }, 

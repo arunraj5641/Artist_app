@@ -47,7 +47,7 @@ const Layout: React.FC = () => {
 
     const customerNavItems = [
         { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/' },
-        { icon: <Brush size={20} />, label: 'Find Artists', path: '/artists' },
+        { icon: <Brush size={20} />, label: 'Find Artists', path: '/find-artists' },
         { icon: <Calendar size={20} />, label: 'My Bookings', path: '/my-bookings' },
         { icon: <Star size={20} />, label: 'My Reviews', path: '/my-reviews' },
         { icon: <Settings size={20} />, label: 'Settings', path: '/settings' },

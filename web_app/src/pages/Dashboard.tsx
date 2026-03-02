@@ -24,24 +24,24 @@ const Dashboard: React.FC = () => {
 
     // Admin stat cards
     const adminStatCards = [
-        { label: 'Total Artists', value: stats?.total_artists || 0, icon: <Users />, color: '#3b82f6' },
-        { label: 'Total Bookings', value: stats?.total_bookings || 0, icon: <CalendarCheck />, color: '#10b981' },
+        { label: 'Total Artists', value: stats?.total_artists || 0, icon: <Users />, color: '#ec4899' },
+        { label: 'Total Bookings', value: stats?.total_bookings || 0, icon: <CalendarCheck />, color: 'var(--accent-primary)' },
         { label: 'Active Services', value: stats?.total_services || 0, icon: <Handshake />, color: '#f59e0b' },
-        { label: 'Revenue', value: `$${stats?.total_payments || stats?.total_revenue || 0}`, icon: <TrendingUp />, color: '#8b5cf6' },
+        { label: 'Revenue', value: `$${stats?.total_payments || stats?.total_revenue || 0}`, icon: <TrendingUp />, color: '#ec4899' },
     ];
 
     // Artist stat cards
     const artistStatCards = [
-        { label: 'My Bookings', value: stats?.total_bookings || 0, icon: <CalendarCheck />, color: '#3b82f6' },
-        { label: 'My Services', value: stats?.total_services || 0, icon: <Layers />, color: '#10b981' },
-        { label: 'Revenue', value: `$${stats?.total_revenue || 0}`, icon: <DollarSign />, color: '#8b5cf6' },
+        { label: 'My Bookings', value: stats?.total_bookings || 0, icon: <CalendarCheck />, color: '#ec4899' },
+        { label: 'My Services', value: stats?.total_services || 0, icon: <Layers />, color: 'var(--accent-primary)' },
+        { label: 'Revenue', value: `$${stats?.total_revenue || 0}`, icon: <DollarSign />, color: '#ec4899' },
         { label: 'Reviews', value: stats?.total_reviews || 0, icon: <Star />, color: '#f59e0b' },
     ];
 
     // Customer stat cards
     const customerStatCards = [
-        { label: 'My Bookings', value: stats?.total_bookings || 0, icon: <CalendarCheck />, color: '#3b82f6' },
-        { label: 'Total Spent', value: `$${stats?.total_spent || 0}`, icon: <DollarSign />, color: '#8b5cf6' },
+        { label: 'My Bookings', value: stats?.total_bookings || 0, icon: <CalendarCheck />, color: '#ec4899' },
+        { label: 'Total Spent', value: `$${stats?.total_spent || 0}`, icon: <DollarSign />, color: '#ec4899' },
     ];
 
     const statCards = role === 'admin' ? adminStatCards : role === 'artist' ? artistStatCards : customerStatCards;

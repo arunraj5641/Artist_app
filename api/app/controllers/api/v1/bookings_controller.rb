@@ -56,6 +56,13 @@ module Api
         render_paginated_success(bookings, message: "Artist bookings retrieved successfully")
       end
 
+      def destroy
+        # load_and_authorize_resource sets @booking and handles authorization
+        # Just need to destroy it and respond
+        authorize! :destroy, @booking
+        render_success(message: 'Booking deleted successfully')
+      end
+
       private
 
       def booking_params

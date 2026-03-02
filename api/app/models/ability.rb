@@ -18,6 +18,7 @@ class Ability
       # Own bookings (received as an artist)
       can :read, Booking, artist_profile: { user_id: user.id }
       can :update, Booking, artist_profile: { user_id: user.id }
+      can :destroy, Booking, artist_profile: { user_id: user.id }
       # Own reviews (received)
       can :read, Review, artist_profile: { user_id: user.id }
       # Own availabilities

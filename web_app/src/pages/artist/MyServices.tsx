@@ -1,9 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useServiceOfferings } from '../../hooks/useServiceOfferings';
+import { useArtistProfiles } from '../../hooks/useArtistProfiles';
+import { AuthService } from '../../services/AuthService';
+import { useToast } from '../../components/common/Toast';
 import type { ServiceOffering } from '../../services/ServiceOfferingService';
 import {
     AlertCircle, Search, X, Layers, Clock, DollarSign,
-    Plus, Edit2, Trash2, Package
+    Plus, Edit2, Trash2, Package, User, Save, CheckCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './ArtistPages.css';
@@ -14,6 +17,36 @@ const MyServicesPage: React.FC = () => {
         createServiceOffering, updateServiceOffering, deleteServiceOffering,
         isCreating, isUpdating, isDeleting
     } = useServiceOfferings();
+
+    const { artistProfiles, updateArtistProfile, isUpdating: isProfileUpdating } = useArtistProfiles();
+    const { showToast } = useToast();
+    const currentUser = AuthService.getCurrentUser();
+    const myProfile = artistProfiles.find((p: any) => p.user_id === currentUser?.id);
+    const [displayName, setDisplayName] = useState('');
+    const [nameSaved, setNameSaved] = useState(false);
+    const [showNamePopup, setShowNamePopup] = useState(false);
+
+    useEffect(() => {
+        if (myProfile?.name) setDisplayName(myProfile.name);
+    }, [myProfile]);
+
+    const handleSaveName = () => {
+        if (!myProfile || !displayName.trim()) return;
+        updateArtistProfile(
+            { id: myProfile.id, data: { name: displayName.trim() } },
+            {
+                onSuccess: () => {
+                    setNameSaved(true);
+                    setShowNamePopup(true);
+                    showToast(`Display name saved as "${displayName.trim()}"`, 'success');
+                    setTimeout(() => setShowNamePopup(false), 3000);
+                },
+                onError: () => {
+                    showToast('Failed to save display name', 'error');
+                }
+            }
+        );
+    };
 
     const [searchQuery, setSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -84,6 +117,88 @@ const MyServicesPage: React.FC = () => {
                     <Plus size={14} /> Add Service
                 </button>
             </div>
+
+            {/* Display Name Banner — artists only */}
+            {currentUser?.role === 'artist' && <div style={{
+                padding: '14px 18px',
+                background: 'rgba(59,130,246,0.07)',
+                border: '1px solid rgba(59,130,246,0.2)',
+                borderRadius: 'var(--border-radius-md)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                flexWrap: 'wrap',
+                position: 'relative'
+            }}>
+                <User size={16} style={{ color: '#f472b6', flexShrink: 0 }} />
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>Your display name (shown to customers):</span>
+                <input
+                    value={displayName}
+                    onChange={e => { setDisplayName(e.target.value); setNameSaved(false); }}
+                    placeholder="Enter your display name..."
+                    style={{
+                        flex: 1,
+                        minWidth: '180px',
+                        padding: '7px 12px',
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        borderRadius: '7px',
+                        color: 'var(--text-primary)',
+                        fontSize: '0.875rem',
+                        fontFamily: 'var(--font-sans)'
+                    }}
+                />
+                <button
+                    onClick={handleSaveName}
+                    disabled={!displayName.trim() || isProfileUpdating}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: '6px',
+                        padding: '7px 16px',
+                        background: nameSaved ? 'rgba(16,185,129,0.2)' : 'rgba(59,130,246,0.2)',
+                        border: `1px solid ${nameSaved ? 'rgba(16,185,129,0.4)' : 'rgba(59,130,246,0.4)'}`,
+                        borderRadius: '7px',
+                        color: nameSaved ? '#34d399' : '#f472b6',
+                        fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    <Save size={13} />
+                    {isProfileUpdating ? 'Saving...' : nameSaved ? 'Saved!' : 'Save Name'}
+                </button>
+
+                {/* Success Popup */}
+                <AnimatePresence>
+                    {showNamePopup && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                            transition={{ duration: 0.25 }}
+                            style={{
+                                position: 'absolute',
+                                bottom: 'calc(100% + 10px)',
+                                right: 0,
+                                background: 'rgba(16,185,129,0.15)',
+                                border: '1px solid rgba(16,185,129,0.4)',
+                                borderRadius: '10px',
+                                padding: '10px 16px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                backdropFilter: 'blur(10px)',
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                                whiteSpace: 'nowrap',
+                                zIndex: 50
+                            }}
+                        >
+                            <CheckCircle size={16} style={{ color: '#34d399' }} />
+                            <span style={{ color: '#34d399', fontWeight: 600, fontSize: '0.85rem' }}>
+                                Display name saved as <strong>"{displayName}"</strong>
+                            </span>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>}
 
             {/* Stats */}
             <div className="stats-row">

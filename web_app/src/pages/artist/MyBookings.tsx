@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useBookings } from '../../hooks/useBookings';
+import { AuthService } from '../../services/AuthService';
 import type { Booking } from '../../services/BookingService';
 import {
     AlertCircle, Search, X, Calendar, Clock, DollarSign,
-    CheckCircle, XCircle, CalendarCheck
+    CheckCircle, XCircle, CalendarCheck, Trash2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './ArtistPages.css';
@@ -13,8 +14,13 @@ const STATUS_FILTERS = ['All', 'Pending', 'Confirmed', 'Completed', 'Cancelled']
 const MyBookingsPage: React.FC = () => {
     const {
         bookings, isLoading, error,
-        updateBooking, isUpdating
+        updateBooking, isUpdating,
+        deleteBooking, isDeleting
     } = useBookings();
+
+    const currentUser = AuthService.getCurrentUser();
+    const isArtist = currentUser?.role === 'artist';
+    const isCustomer = currentUser?.role === 'customer';
 
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
@@ -43,6 +49,11 @@ const MyBookingsPage: React.FC = () => {
         updateBooking({ id: bookingId, data: { status: newStatus } });
     };
 
+    const handleDelete = (bookingId: string) => {
+        if (!window.confirm('Delete this booking? This cannot be undone.')) return;
+        deleteBooking(bookingId);
+    };
+
     if (isLoading) {
         return <div className="page-loading"><div className="spinner" /><span>Loading bookings...</span></div>;
     }
@@ -55,7 +66,7 @@ const MyBookingsPage: React.FC = () => {
                     <div className="page-header-icon emerald"><Calendar size={18} /></div>
                     <div>
                         <h1>My Bookings</h1>
-                        <p>Track and manage your appointments</p>
+                        <p>{isArtist ? 'Review and approve booking requests' : 'Track and manage your appointments'}</p>
                     </div>
                 </div>
                 <div className="page-header-badge">
@@ -138,20 +149,59 @@ const MyBookingsPage: React.FC = () => {
                                         <Calendar size={11} />
                                         Created {new Date(booking.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                     </span>
+
                                     <div className="actions-row">
-                                        {booking.status === 'pending' && (
-                                            <>
-                                                <button className="icon-btn edit" title="Confirm" onClick={() => handleStatusChange(booking.id, 'confirmed')} disabled={isUpdating}>
-                                                    <CheckCircle size={14} />
-                                                </button>
-                                                <button className="icon-btn delete" title="Cancel" onClick={() => handleStatusChange(booking.id, 'cancelled')} disabled={isUpdating}>
-                                                    <XCircle size={14} />
-                                                </button>
-                                            </>
-                                        )}
-                                        {booking.status === 'confirmed' && (
-                                            <button className="icon-btn edit" title="Mark Complete" onClick={() => handleStatusChange(booking.id, 'completed')} disabled={isUpdating}>
+                                        {/* ── ARTIST ACTIONS: approve pending bookings ── */}
+                                        {isArtist && booking.status === 'pending' && (
+                                            <button
+                                                className="icon-btn edit"
+                                                title="Approve Request"
+                                                onClick={() => handleStatusChange(booking.id, 'confirmed')}
+                                                disabled={isUpdating}
+                                            >
                                                 <CheckCircle size={14} />
+                                            </button>
+                                        )}
+                                        {isArtist && booking.status === 'confirmed' && (
+                                            <button
+                                                className="icon-btn edit"
+                                                title="Mark Complete"
+                                                onClick={() => handleStatusChange(booking.id, 'completed')}
+                                                disabled={isUpdating}
+                                            >
+                                                <CheckCircle size={14} />
+                                            </button>
+                                        )}
+                                        {isArtist && (booking.status === 'pending' || booking.status === 'confirmed') && (
+                                            <button
+                                                className="icon-btn delete"
+                                                title="Cancel Booking"
+                                                onClick={() => handleStatusChange(booking.id, 'cancelled')}
+                                                disabled={isUpdating}
+                                            >
+                                                <XCircle size={14} />
+                                            </button>
+                                        )}
+
+                                        {/* ── CUSTOMER ACTIONS: cancel or delete ── */}
+                                        {isCustomer && booking.status === 'pending' && (
+                                            <button
+                                                className="icon-btn delete"
+                                                title="Cancel Booking"
+                                                onClick={() => handleStatusChange(booking.id, 'cancelled')}
+                                                disabled={isUpdating}
+                                            >
+                                                <XCircle size={14} />
+                                            </button>
+                                        )}
+                                        {isCustomer && (
+                                            <button
+                                                className="icon-btn delete"
+                                                title="Delete Booking"
+                                                onClick={() => handleDelete(booking.id)}
+                                                disabled={isDeleting}
+                                            >
+                                                <Trash2 size={14} />
                                             </button>
                                         )}
                                     </div>

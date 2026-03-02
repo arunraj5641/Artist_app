@@ -14,6 +14,7 @@ import { TokenManager } from './TokenManager';
 export interface ApiResponse<T = any> {
     success: boolean;
     data?: T;
+    meta?: any;
     error?: any;
     message?: string;
     status?: number;
@@ -88,9 +89,13 @@ apiClient.interceptors.response.use(
             const originalRequest = error.config;
             if (!originalRequest?.url?.includes('/login') && !originalRequest?.url?.includes('/signup')) {
                 await TokenManager.clearToken();
+                localStorage.removeItem('user'); // Also remove user data
                 // Redirect to login or dispatch an event if needed
                 if (typeof window !== 'undefined') {
                     window.dispatchEvent(new CustomEvent('auth-logout', { detail: { reason: 'unauthorized' } }));
+                    if (window.location.pathname !== '/login') {
+                        window.location.href = '/login';
+                    }
                 }
             }
         }
@@ -119,6 +124,7 @@ export async function service<T = any>(
         return {
             success: backend?.success ?? true,
             data: backend?.data ?? backend,
+            meta: backend?.meta,
             status: response.status,
             headers: response.headers,
         };
