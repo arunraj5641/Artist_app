@@ -2,7 +2,7 @@ module Api
   module V1
     class AvailabilitiesController < ApplicationController
       include Crudable
-      load_and_authorize_resource
+      load_and_authorize_resource class: 'Availability'
 
       private
 
@@ -15,7 +15,7 @@ module Api
       end
 
       def collection
-        Availabilities.all.order(available_date: :asc)
+        Availability.all.order(available_date: :asc)
       end
     end
   end

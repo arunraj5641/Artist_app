@@ -16,10 +16,11 @@ module Paginatable
   end
 
   def render_paginated_success(scope, message: 'Success', status: :ok)
+    serialized_data = ActiveModelSerializers::SerializableResource.new(scope)
     render json: {
       success: true,
       message: message,
-      data: scope,
+      data: serialized_data,
       meta: pagination_meta(scope)
     }, status: status
   end
