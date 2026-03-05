@@ -41,21 +41,8 @@ module Api
 
       # GET /api/v1/dashboard/summary
       def summary
-        # Optimized combined query for customer dashboard summary
-        stats = {
-          total_bookings: Booking.where(customer_id: current_user.id).count,
-          upcoming_bookings: Booking.where(customer_id: current_user.id)
-                                    .where(status: ['pending', 'confirmed'])
-                                    .where('booking_date >= ?', Date.today).count,
-          total_spent: Payment.joins(:booking)
-                              .where(bookings: { customer_id: current_user.id })
-                              .sum(:amount).to_f
-        }
-
-        render_success(
-          data: stats,
-          message: "Dashboard summary retrieved successfully"
-        )
+        stats = Dashboard::SummaryService.new(current_user).call
+        render_success(data: stats, message: "Dashboard summary retrieved successfully")
       end
 
       private

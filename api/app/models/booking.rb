@@ -8,4 +8,7 @@ class Booking < ApplicationRecord
 
   STATUSES = %w[pending confirmed completed cancelled].freeze
   validates :status, inclusion: { in: STATUSES }, allow_nil: true
+
+  scope :upcoming, -> { where('booking_date >= ?', Date.current).where(status: ['pending', 'confirmed']) }
+  scope :for_customer, ->(customer_id) { where(customer_id: customer_id) }
 end
