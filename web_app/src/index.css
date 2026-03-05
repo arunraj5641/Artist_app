@@ -5,13 +5,13 @@
   --font-heading: 'Outfit', var(--font-sans);
 
   /* Premium Color Palette */
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
+  --bg-primary: #170a16;
+  --bg-secondary: #261325;
+  --bg-tertiary: #3a1d38;
 
-  --accent-primary: #3b82f6;
-  --accent-secondary: #60a5fa;
-  --accent-dark: #1d4ed8;
+  --accent-primary: #ec4899;
+  --accent-secondary: #f472b6;
+  --accent-dark: #be185d;
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -92,12 +92,17 @@ button {
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-dark) 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-primary) 100%);
 }
 
 .btn-secondary {
@@ -167,4 +172,101 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* Animations */
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-slow {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .7;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Global Card Enhancements */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 24px -10px rgba(236, 72, 153, 0.3);
+  border-color: rgba(236, 72, 153, 0.4);
+}
+/* Auto-applied premium card hovers */
+.stat-card:hover, 
+.artist-card:hover, 
+.item-card:hover, 
+.login-card:hover,
+.content-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 32px -10px rgba(236, 72, 153, 0.35);
+  border-color: rgba(236, 72, 153, 0.5) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-card, .artist-card, .item-card, .login-card, .content-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: var(--border-radius-lg);
+}
+
+/* Icon enhancements */
+svg {
+  transition: all 0.3s ease;
+}
+
+button:hover svg, 
+.stat-card:hover svg,
+.action-card:hover svg {
+  transform: scale(1.15) rotate(-5deg);
+  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6));
+  color: #f472b6 !important;
+}
+
+/* Pink glow elements */
+.pink-glow {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+  border: 1px solid rgba(236, 72, 153, 0.8);
 }

@@ -72,6 +72,8 @@ module Api
           total_revenue: Payment.joins(:booking).where(bookings: { artist_profile_id: profile.id }).sum(:amount),
           upcoming_bookings_count: Booking.where(artist_profile_id: profile.id, status: ["pending", "confirmed"])
                                      .where("booking_date >= ?", Date.today).count,
+          upcoming_bookings: Booking.where(artist_profile_id: profile.id, status: ["pending", "confirmed"])
+                                    .where("booking_date >= ?", Date.today).count,
           recent_bookings: ActiveModelSerializers::SerializableResource.new(
             Booking.where(artist_profile_id: profile.id).order(created_at: :desc).limit(5),
             each_serializer: BookingSerializer

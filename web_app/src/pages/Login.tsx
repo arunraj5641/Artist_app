@@ -33,7 +33,9 @@ const Login: React.FC = () => {
                     return;
                 }
 
-                navigate('/');
+                // Force a hard redirect so that `App.tsx` completely re-evaluates `AuthService.getCurrentUser()`
+                // and correctly re-renders the appropriate layouts (AdminLayout vs custom Layout).
+                window.location.href = '/';
             } else {
                 setError(response.message || 'Invalid credentials');
             }
