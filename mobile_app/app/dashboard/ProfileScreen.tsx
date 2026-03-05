@@ -18,6 +18,7 @@ const ARTIST = {
 };
 
 export default function ProfileScreen() {
+    const router = useRouter();
     return (
         <ScrollView className="flex-1 bg-dark-900" showsVerticalScrollIndicator={false}>
             <StatusBar barStyle="light-content" backgroundColor="#0b1120" />
@@ -189,8 +190,32 @@ export default function ProfileScreen() {
                 </View>
             </View>
 
+            {/* Danger Zone */}
+            <View className="mx-5 mt-5">
+                <View className="bg-dark-700 rounded-2xl overflow-hidden border border-white/5">
+                    <TouchableOpacity
+                        className="flex-row items-center p-4 gap-x-3"
+                        onPress={async () => {
+                            await storage.clear();
+                            router.replace("/");
+                        }}
+                    >
+                        <View className="w-9 h-9 rounded-xl bg-red-500/10 items-center justify-center">
+                            <Ionicons name="log-out-sharp" size={18} color="#ef4444" />
+                        </View>
+                        <View className="flex-1">
+                            <Text className="text-red-500 text-sm font-semibold">Logout</Text>
+                            <Text className="text-slate-500 text-[10px]">Sign out of your account</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
             {/* Bottom spacer */}
             <View className="h-24" />
         </ScrollView>
     );
 }
+
+import storage from "../../services/storage";
+import { useRouter } from "expo-router";

@@ -32,15 +32,15 @@ const apiClient = axios.create({
     },
 });
 
+import storage from './storage';
+
 // Request interceptor
 apiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        // TODO: Get token from storage (e.g. AsyncStorage or SecureStore)
-        // For now, we'll assume no token or a mock one if needed.
-        // const token = await TokenManager.get();
-        // if (token) {
-        //     config.headers.Authorization = `Bearer ${token}`;
-        // }
+        const token = await storage.getToken();
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
 
         if (!(config.data instanceof FormData)) {
             config.headers['Content-Type'] = 'application/json';
