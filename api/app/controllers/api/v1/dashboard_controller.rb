@@ -59,30 +59,43 @@ module Api
       end
 
       def artist_stats
-        profile = current_user.artist_profile
-        return {} unless profile
+         profile = current_user.artist_profile
+         return {} unless profile
+
+         bookings = Booking.where(artist_profile_id: profile.id)
+         services = Service.where(artist_profile_id: profile.id)
+         reviews  = Review.where(artist_profile_id: profile.id)
 
         {
-          total_bookings: Booking.where(artist_profile_id: profile.id).count,
-          pending_bookings: Booking.where(artist_profile_id: profile.id, status: "pending").count,
-          completed_bookings: Booking.where(artist_profile_id: profile.id, status: "completed").count,
-          total_services: Service.where(artist_profile_id: profile.id).count,
-          total_reviews: Review.where(artist_profile_id: profile.id).count,
-          average_rating: Review.where(artist_profile_id: profile.id).average(:rating)&.round(1) || 0,
-          total_revenue: Payment.joins(:booking).where(bookings: { artist_profile_id: profile.id }).sum(:amount),
-          upcoming_bookings: Booking.where(artist_profile_id: profile.id, status: ["pending", "confirmed"])
-                                    .where("booking_date >= ?", Date.today).count
-        }
+         total_bookings: bookings.count,
+         pending_bookings: bookings.where(status: "pending").count,
+         completed_bookings: bookings.where(status: "completed").count,
+         total_services: services.count,
+         total_reviews: reviews.count,
+         average_rating: reviews.average(:rating)&.round(1) || 0,
+         total_revenue: Payment.joins(:booking)
+                          .where(bookings: { artist_profile_id: profile.id })
+                          .sum(:amount),
+         upcoming_bookings: bookings
+                        .where(status: ["pending", "confirmed"])
+                        .where("booking_date >= ?", Date.today)
+                        .count
+         }
       end
 
       def customer_stats
-        {
-          total_bookings: Booking.where(customer_id: current_user.id).count,
-          pending_bookings: Booking.where(customer_id: current_user.id, status: "pending").count,
-          completed_bookings: Booking.where(customer_id: current_user.id, status: "completed").count,
-          total_spent: Payment.joins(:booking).where(bookings: { customer_id: current_user.id }).sum(:amount),
-          total_reviews: Review.where(customer_id: current_user.id).count
-        }
+        bookings = Booking.where(customer_id: current_user.id)
+        reviews  = Review.where(customer_id: current_user.id)
+      {
+       total_bookings: bookings.count,
+       pending_bookings: bookings.where(status: "pending").count,
+       completed_bookings: bookings.where(status: "completed").count,
+       total_spent: Payment.joins(:booking)
+                           .where(bookings: { customer_id: current_user.id })
+                           .sum(:amount),
+       total_reviews: reviews.count
+      }
+      end
       end
     end
   end

@@ -20,7 +20,7 @@ module Api
           token = ::JsonWebToken.encode(user_id: @user.id)
           render_success(
             data: { 
-              user: UserSerializer.new(@user), 
+              user: @user, 
               token: token 
             }, 
             message: 'Account created successfully', 

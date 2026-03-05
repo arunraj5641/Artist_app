@@ -2,7 +2,7 @@ module Api
   module V1
     class OrganizationsController < ApplicationController
       include Crudable
-
+      load_and_authorize_resource
       private
 
       def organization_params

@@ -5,8 +5,8 @@ module Api
 
       # POST /api/v1/login
       def create
-        @user = User.find_by_email(params[:email])
-        if @user&.authenticate(params[:password])
+        @user = User.find_by_email(login_params[:email])
+        if @user&.authenticate(login_params[:password])
           token = ::JsonWebToken.encode(user_id: @user.id)
           time = Time.now + 24.hours.to_i
           render_success(
@@ -35,7 +35,7 @@ module Api
       # GET /api/v1/me
       def me
         render_success(
-          data: UserSerializer.new(current_user),
+          data: current_user,
           message: 'Current user retrieved successfully'
         )
       end

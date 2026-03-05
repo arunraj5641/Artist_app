@@ -12,7 +12,8 @@ module Api
 
       def show
         authorize! :read, @resource
-        render_success(data: serialize_profile(@resource))
+        render_success(data: @resource,
+        message: 'Artist profile retrieved successfully')
       end
 
       private
@@ -26,7 +27,9 @@ module Api
       end
 
       def collection
-        ArtistProfile.includes(:user, :services, :bookings, :reviews).order(created_at: :desc)
+        ArtistProfile
+        .includes(:user, :services, :bookings, :reviews)
+        .order(created_at: :desc)
       end
     end
   end

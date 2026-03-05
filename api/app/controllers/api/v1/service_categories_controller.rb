@@ -2,6 +2,7 @@ module Api
   module V1
     class ServiceCategoriesController < ApplicationController
       include Crudable
+      load_and_authorize_resource
 
       private
 
