@@ -21,6 +21,9 @@ Rails.application.routes.draw do
         get "dashboard", to: "dashboard#index"
         get "recent-bookings", to: "dashboard#recent_bookings"
         get "top-artists", to: "dashboard#top_artists"
+        get "revenue-chart", to: "dashboard#revenue_chart"
+        get "bookings-by-status", to: "dashboard#bookings_by_status"
+        get "activity-feed", to: "dashboard#activity_feed"
       end
 
       # Resources

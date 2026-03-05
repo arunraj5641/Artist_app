@@ -53,6 +53,79 @@ module Api
           )
         end
 
+        # GET /api/v1/admin/revenue-chart
+        def revenue_chart
+          revenue_data = Payment.group("DATE_TRUNC('month', created_at)")
+                                .sum(:amount)
+                                .map do |date, total|
+            {
+              month: date.strftime('%b %Y'),
+              revenue: total.to_f
+            }
+          end
+
+          render_success(
+            data: revenue_data,
+            message: "Revenue chart data retrieved successfully"
+          )
+        end
+
+        # GET /api/v1/admin/bookings-by-status
+        def bookings_by_status
+          counts = Booking.group(:status).count
+          
+          # Ensure all statuses are included, even with 0 count
+          formatted_counts = Booking::STATUSES.map do |status|
+            {
+              status: status,
+              count: counts[status] || 0
+            }
+          end
+
+          render_success(
+            data: formatted_counts,
+            message: "Bookings by status retrieved successfully"
+          )
+        end
+
+        # GET /api/v1/admin/activity-feed
+        def activity_feed
+          # Combine recent users, bookings, and artist approvals
+          users = User.order(created_at: :desc).limit(5).map do |user|
+            {
+              id: user.id,
+              type: 'signup',
+              message: "New user joined: #{user.name || user.email}",
+              timestamp: user.created_at
+            }
+          end
+
+          bookings = Booking.includes(:customer, :service).order(created_at: :desc).limit(5).map do |booking|
+            {
+              id: booking.id,
+              type: 'booking',
+              message: "New booking for #{booking.service&.name} by #{booking.customer&.name || 'a customer'}",
+              timestamp: booking.created_at
+            }
+          end
+
+          approvals = ArtistProfile.where.not(approved_at: nil).order(approved_at: :desc).limit(5).map do |profile|
+            {
+              id: profile.id,
+              type: 'approval',
+              message: "Artist approved: #{profile.name || profile.user&.email}",
+              timestamp: profile.approved_at
+            }
+          end
+
+          feed = (users + bookings + approvals).sort_by { |item| item[:timestamp] }.reverse.first(15)
+
+          render_success(
+            data: feed,
+            message: "Activity feed retrieved successfully"
+          )
+        end
+
         private
 
         def authorize_admin
