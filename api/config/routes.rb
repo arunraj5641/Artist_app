@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
       # Nested: artist availability
       get "artists/:artist_id/availability", to: "availabilities#artist_availability"
+      get "artists/:id/services", to: "services#artist_services"
+      
     end
   end
 end

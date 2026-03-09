@@ -2,7 +2,7 @@ module Api
   module V1
     class ServicesController < ApplicationController
       include Crudable
-      load_and_authorize_resource except: [:create, :index]
+      load_and_authorize_resource except: [:create, :index, :artist_services]
 
       # Override create to auto-assign artist_profile_id for artists
       def create
@@ -24,6 +24,20 @@ module Api
           render_error(errors: @resource.errors.full_messages)
         end
       end
+
+      # GET /api/v1/artists/:id/services
+      def artist_services
+        artist = ArtistProfile.find_by(id: params[:id])
+
+        return render_error(message: "Artist not found", status: :not_found) unless artist
+
+        services = Service.where(artist_profile_id: artist.id).order(name: :asc)
+
+        render_success(
+          data: services,
+          message: "Artist services retrieved successfully"
+          )
+        end
 
       private
 
