@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       patch "password/update", to: "passwords#update"
       delete "logout", to: "sessions#destroy"
       get "me", to: "sessions#me"
+      get "profile", to: "sessions#me"
 
       # Dashboard
       get "dashboard", to: "dashboard#index"
