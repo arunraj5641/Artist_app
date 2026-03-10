@@ -9,7 +9,9 @@ Rails.application.routes.draw do
       post "signup", to: "registrations#create"
       patch "password/update", to: "passwords#update"
       delete "logout", to: "sessions#destroy"
-      get "me", to: "sessions#me"
+      get "profile", to: "sessions#me"
+      patch "profile", to: "sessions#update_profile"
+      delete "profile", to: "sessions#delete_profile"
 
       # Dashboard
       get "dashboard", to: "dashboard#index"
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
       resources :services
       resources :service_categories
       resources :organizations
-      get "artists/:id", to: "artist_profiles#show"
+
       resources :bookings do
         collection do
           get :my_bookings
@@ -35,7 +37,11 @@ Rails.application.routes.draw do
       resources :payments
 
       # Nested: artist availability
-      get "artists/:artist_id/availability", to: "availabilities#artist_availability"
+      get "artists", to: "artist_profiles#index"
+      get "artists/:id", to: "artist_profiles#show"
+      get "artists/:id/services", to: "services#artist_services"
+      get "artists/:id/availability", to: "availabilities#artist_availability"
+      
     end
   end
 end

@@ -40,7 +40,56 @@ module Api
         )
       end
 
+
+      # PATCH /api/v1/profile
+      def update_profile
+        if current_user.update(profile_params)
+          render_success(
+            data: current_user,
+            message: "Profile updated successfully"
+          )
+        else
+          render_error(
+            message: current_user.errors.full_messages,
+            status: :unprocessable_entity
+          )
+        end
+      end
+
+
+      # DELETE /api/v1/profile
+      def delete_profile
+        user = current_user
+        ActiveRecord::Base.transaction do
+          # cancel bookings created by the user
+          Booking.where(customer_id: user.id, status: "pending")
+                 .update_all(status: "cancelled")
+ 
+          # cancel bookings received by the artist
+          if user.artist? && user.artist_profile
+            Booking.where(artist_profile_id: user.artist_profile.id, status: "pending")
+                   .update_all(status: "cancelled")
+          end
+
+        user.update!(status: "inactive")
+        end
+        render_success(
+          message: "Account deleted successfully"
+        )
+      end
+        
       private
+
+      def profile_params
+        params.permit(
+          :name,
+          :phone,
+          :address,
+          :preferences,
+          :password,
+          :password_confirmation
+        )
+      end
 
       def login_params
         params.permit(:email, :password)
