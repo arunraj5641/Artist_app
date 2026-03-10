@@ -60,12 +60,23 @@ module Api
       # DELETE /api/v1/profile
       def delete_profile
         user = current_user
-        user.update(status: "inactive")
-        Booking.where(customer_id: user.id, status: "pending").update_all(status: "cancelled")
+        ActiveRecord::Base.transaction do
+          # cancel bookings created by the user
+          Booking.where(customer_id: user.id, status: "pending")
+                 .update_all(status: "cancelled")
+ 
+          # cancel bookings received by the artist
+          if user.artist? && user.artist_profile
+            Booking.where(artist_profile_id: user.artist_profile.id, status: "pending")
+                   .update_all(status: "cancelled")
+          end
+
+        user.update!(status: "inactive")
+        end
         render_success(
           message: "Account deleted successfully"
-          )
-        end
+        )
+      end
         
       private
 
