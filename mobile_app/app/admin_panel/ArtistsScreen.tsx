@@ -7,7 +7,7 @@ import StatusBadge from "../../components/admin/StatusBadge";
 import SectionHeader from "../../components/admin/SectionHeader";
 import SearchFilterBar from "../../components/admin/SearchFilterBar";
 import KPICard from "../../components/admin/KPICard";
-
+import { router } from "expo-router";
 import { toast } from "../../utils/toast";
 import { getArtists, Artist } from "../../services/artists";
 
@@ -140,12 +140,11 @@ export default function ArtistsScreen() {
         <View className="flex-row gap-x-2">
 
           <TouchableOpacity
-            className="w-[34] h-[34] rounded-md bg-dark-800 items-center justify-center border border-white/5"
-            onPress={() => toast.info(`Viewing ${artist.name}`)}
+             className="w-[34] h-[34] rounded-md bg-dark-800 items-center justify-center border border-white/5"
+             onPress={() => router.push(`/artists/${artist.id}`)}
           >
-            <Ionicons name="eye-outline" size={16} color="#94a3b8" />
+          <Ionicons name="eye-outline" size={16} color="#94a3b8" />
           </TouchableOpacity>
-
           <TouchableOpacity
             className="w-[34] h-[34] rounded-md bg-dark-800 items-center justify-center border border-white/5"
             onPress={() => toast.info(`Editing ${artist.name}`)}
