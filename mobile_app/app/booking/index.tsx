@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Stack, useLocalSearchParams, router } from "expo-router";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { createBooking } from "../../services/bookings";
 
 export default function BookingScreen() {
@@ -38,6 +39,13 @@ export default function BookingScreen() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
+
+  const today = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
 
   const dates = useMemo(() => {
     const result = [];
@@ -172,54 +180,54 @@ export default function BookingScreen() {
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="bg-dark-700 rounded-2xl p-5 mb-8 border border-white/5">
-          <Text className="text-white text-lg font-semibold mb-4">
-            Booking Summary
+        <View className="bg-dark-800 rounded-2xl p-6 mb-8 border border-white/5">
+          <Text className="text-white text-lg font-bold mb-5">
+            Booking Details
           </Text>
 
-          <View className="gap-3">
+          <View className="gap-4">
             <View className="flex-row items-start justify-between">
-              <Text className="text-slate-400 text-sm">Service</Text>
-              <Text className="text-white text-sm font-medium max-w-[65%] text-right">
+              <Text className="text-slate-400 text-sm font-medium">Service</Text>
+              <Text className="text-white text-sm font-semibold max-w-[65%] text-right">
                 {serviceName || "Not available"}
               </Text>
             </View>
 
             <View className="flex-row items-start justify-between">
-              <Text className="text-slate-400 text-sm">Price</Text>
-              <Text className="text-white text-sm font-medium">
+              <Text className="text-slate-400 text-sm font-medium">Price</Text>
+              <Text className="text-white text-sm font-semibold">
                 {price ? `₹${price}` : "Not available"}
               </Text>
             </View>
 
             {duration ? (
               <View className="flex-row items-start justify-between">
-                <Text className="text-slate-400 text-sm">Duration</Text>
-                <Text className="text-white text-sm font-medium">
+                <Text className="text-slate-400 text-sm font-medium">Duration</Text>
+                <Text className="text-white text-sm font-semibold">
                   {duration} mins
                 </Text>
               </View>
             ) : null}
 
             <View className="flex-row items-start justify-between">
-              <Text className="text-slate-400 text-sm">Artist</Text>
-              <Text className="text-white text-sm font-medium max-w-[65%] text-right">
+              <Text className="text-slate-400 text-sm font-medium">Artist</Text>
+              <Text className="text-white text-sm font-semibold max-w-[65%] text-right">
                 {artistName || artistId || "Not available"}
               </Text>
             </View>
 
-            <View className="h-px bg-white/5 my-1" />
+            <View className="h-px bg-white/10 my-2" />
 
             <View className="flex-row items-start justify-between">
-              <Text className="text-slate-400 text-sm">Date</Text>
-              <Text className="text-white text-sm font-medium">
+              <Text className="text-slate-400 text-sm font-medium">Date</Text>
+              <Text className="text-white text-sm font-semibold">
                 {formatDateLabel(selectedDate)}
               </Text>
             </View>
 
             <View className="flex-row items-start justify-between">
-              <Text className="text-slate-400 text-sm">Time</Text>
-              <Text className="text-white text-sm font-medium">
+              <Text className="text-slate-400 text-sm font-medium">Time</Text>
+              <Text className="text-white text-sm font-semibold">
                 {selectedTime || "Not selected"}
               </Text>
             </View>
@@ -238,29 +246,54 @@ export default function BookingScreen() {
               <TouchableOpacity
                 key={d.fullDate}
                 onPress={() => setSelectedDate(d.fullDate)}
-                className={`w-20 py-4 rounded-2xl items-center border ${
+                className={`min-w-[72px] h-[84px] rounded-2xl items-center justify-center border ${
                   selectedDate === d.fullDate
                     ? "bg-purple-600 border-purple-500"
-                    : "bg-dark-700 border-white/5"
+                    : "bg-dark-800 border-white/5"
                 }`}
               >
                 <Text
-                  className={`text-xs mb-1 ${
+                  className={`text-[11px] font-medium uppercase tracking-wider mb-1 ${
                     selectedDate === d.fullDate
-                      ? "text-white/80"
+                      ? "text-white/90"
                       : "text-slate-400"
                   }`}
                 >
                   {d.day}
                 </Text>
 
-                <Text className="text-white font-semibold text-lg">
+                <Text className={`text-2xl font-bold ${
+                  selectedDate === d.fullDate ? "text-white" : "text-slate-200"
+                }`}>
                   {d.date}
                 </Text>
               </TouchableOpacity>
             ))}
+
+            <TouchableOpacity
+              onPress={() => setShowPicker(true)}
+              className="min-w-[72px] h-[84px] rounded-2xl items-center justify-center border bg-dark-800 border-white/5"
+            >
+              <Text className="text-lg">📅</Text>
+              <Text className="text-slate-400 text-[11px] font-medium mt-1">More</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
+
+        {showPicker && (
+          <DateTimePicker
+            value={selectedDate ? new Date(selectedDate) : today}
+            mode="date"
+            display="default"
+            minimumDate={today}
+            onChange={(event, date) => {
+              setShowPicker(false);
+              if (date) {
+                setSelectedDate(date.toLocaleDateString("en-CA"));
+              }
+            }}
+          />
+        )}
 
         <Text className="text-slate-400 text-sm mb-3">Select time</Text>
 
@@ -273,17 +306,21 @@ export default function BookingScreen() {
                 key={time}
                 disabled={disabled || submitting}
                 onPress={() => setSelectedTime(time)}
-                className={`min-w-[88px] px-5 py-3 rounded-2xl items-center border ${
+                className={`flex-1 min-w-[30%] py-4 rounded-xl items-center border ${
                   disabled
-                    ? "bg-slate-800 border-slate-800"
+                    ? "bg-dark-800/50 border-white/5 opacity-40"
                     : selectedTime === time
                     ? "bg-purple-600 border-purple-500"
-                    : "bg-dark-700 border-white/5"
+                    : "bg-dark-800 border-white/10"
                 }`}
               >
                 <Text
-                  className={`text-sm font-medium ${
-                    disabled ? "text-slate-600" : "text-white"
+                  className={`text-sm font-semibold ${
+                    disabled
+                      ? "text-slate-500"
+                      : selectedTime === time
+                      ? "text-white"
+                      : "text-slate-300"
                   }`}
                 >
                   {time}
@@ -294,21 +331,27 @@ export default function BookingScreen() {
         </View>
       </ScrollView>
 
-      <View className="p-6 border-t border-white/5 bg-dark-900">
+      <View className="p-6 pt-5 pb-8 border-t border-white/10 bg-dark-900 flex-row items-center justify-between">
+        <View className="flex-shrink mr-4">
+          <Text className="text-slate-400 text-xs font-medium mb-1">Total</Text>
+          <Text className="text-white text-2xl font-bold">₹{price || 0}</Text>
+        </View>
         <TouchableOpacity
           disabled={!selectedDate || !selectedTime || submitting}
           onPress={handleBooking}
-          className={`rounded-2xl p-4 items-center ${
+          className={`flex-1 rounded-2xl py-4 items-center justify-center ${
             selectedDate && selectedTime && !submitting
               ? "bg-purple-600"
-              : "bg-slate-700"
+              : "bg-dark-800 border-white/5 opacity-60"
           }`}
         >
           {submitting ? (
             <ActivityIndicator color="#ffffff" />
           ) : (
-            <Text className="text-white font-semibold text-base">
-              Confirm Booking
+            <Text className={`font-bold text-base ${
+              selectedDate && selectedTime ? "text-white" : "text-slate-400"
+            }`}>
+              Book Now
             </Text>
           )}
         </TouchableOpacity>

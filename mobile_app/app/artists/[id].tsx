@@ -43,7 +43,7 @@ export default function ArtistDetail() {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-dark-900">
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#a855f7" />
       </View>
     );
   }
@@ -71,10 +71,13 @@ export default function ArtistDetail() {
         <ArtistHeader artist={artist} />
 
         {/* SERVICES */}
-        <View className="mt-2 mb-4">
-          <Text className="text-white font-semibold mb-2">
-            Services
-          </Text>
+        <View className="mt-4 mb-4">
+          <View className="flex-row items-center justify-between mb-3">
+            <Text className="text-white text-lg font-bold">Services</Text>
+            <Text className="text-slate-500 text-xs">
+              {artist.services?.length || 0} available
+            </Text>
+          </View>
 
           {artist.services?.length ? (
             [...artist.services]
@@ -95,10 +98,13 @@ export default function ArtistDetail() {
         </View>
 
         {/* REVIEWS */}
-        <View className="mt-2 mb-6">
-          <Text className="text-white font-semibold mb-2">
-            Reviews
-          </Text>
+        <View className="mt-4 mb-6">
+          <View className="flex-row items-center justify-between mb-3">
+            <Text className="text-white text-lg font-bold">Reviews</Text>
+            <Text className="text-slate-500 text-xs">
+              {artist.reviews?.length || 0} reviews
+            </Text>
+          </View>
 
           {artist.reviews?.length ? (
            [...(artist.reviews || [])]
@@ -118,6 +124,22 @@ export default function ArtistDetail() {
       {/* BOOK BUTTON (STICKY FOOTER) */}
       <View className="p-5 border-t border-white/5 bg-dark-900">
 
+        {selectedService && (
+          <View className="flex-row items-center justify-between mb-3">
+            <View>
+              <Text className="text-white text-sm font-medium">
+                {selectedService.name}
+              </Text>
+              <Text className="text-slate-500 text-xs mt-0.5">
+                {selectedService.duration_minutes} mins
+              </Text>
+            </View>
+            <Text className="text-white text-base font-bold">
+              ₹{selectedService.price}
+            </Text>
+          </View>
+        )}
+
         <TouchableOpacity
           disabled={!selectedService}
           onPress={() =>
@@ -129,20 +151,20 @@ export default function ArtistDetail() {
                 serviceName: selectedService.name,
                 price: selectedService.price?.toString(),
                 duration: selectedService.duration?.toString(),
-                artistName:artist.name || artist.email,
+                artistName: artist.name || artist.email,
               },
             })
           }
-          className={`rounded-xl p-4 items-center ${
+          className={`rounded-2xl py-4 items-center ${
             selectedService ? "bg-purple-600" : "bg-slate-700"
-        }`}
-     >
-  <Text className="text-white font-semibold text-base">
-    {selectedService
-      ? `Book ${selectedService.name}`
-      : "Select a Service"}
-  </Text>
-</TouchableOpacity>
+          }`}
+        >
+          <Text className="text-white font-bold text-base">
+            {selectedService
+              ? `Book ${selectedService.name}`
+              : "Select a Service"}
+          </Text>
+        </TouchableOpacity>
 
       </View>
 
