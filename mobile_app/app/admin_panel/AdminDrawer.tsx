@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors, BorderRadius, FontSizes, FontWeights, Spacing } from "../../constants/theme";
@@ -148,9 +149,11 @@ export default function AdminDrawer() {
             headerRight: () => (
               <View className="flex-row items-center mr-4">
                 <Ionicons name="notifications-outline" size={22} color={Colors.textSecondary} className="mr-4" />
-                <View className="w-8 h-8 rounded-full bg-accent items-center justify-center mr-2">
-                  <Text className="text-white font-bold text-xs">A</Text>
-                </View>
+                <TouchableOpacity onPress={() => router.push("/profile")}>
+                  <View className="w-8 h-8 rounded-full bg-accent items-center justify-center mr-2">
+                    <Text className="text-white font-bold text-xs">A</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             ),
           }}

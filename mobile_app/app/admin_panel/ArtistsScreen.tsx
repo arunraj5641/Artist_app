@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { View, Text, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, ScrollView, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import Avatar from "../../components/admin/Avatar";
@@ -7,7 +7,7 @@ import StatusBadge from "../../components/admin/StatusBadge";
 import SectionHeader from "../../components/admin/SectionHeader";
 import SearchFilterBar from "../../components/admin/SearchFilterBar";
 import KPICard from "../../components/admin/KPICard";
-
+import { router } from "expo-router";
 import { toast } from "../../utils/toast";
 import { getArtists, Artist } from "../../services/artists";
 
@@ -15,42 +15,56 @@ const STATUS_FILTERS = ["All", "Approved", "Pending"];
 
 export default function ArtistsScreen() {
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
 
   useEffect(() => {
     const fetchArtists = async () => {
+      if (debouncedSearch) {
+        setSearchLoading(true);
+      } else {
+        setLoading(true);
+      }
       try {
-        const data = await getArtists();
+        const data = await getArtists(debouncedSearch);
         setArtists(data);
       } catch (error) {
         toast.error("Failed to load artists");
       } finally {
-        setLoading(false);
+        if (debouncedSearch) {
+          setSearchLoading(false);
+        } else {
+          setLoading(false);
+        }
       }
     };
 
     fetchArtists();
-  }, []);
+  }, [debouncedSearch]);
 
   const filtered = useMemo(() => {
-    const s = (search || "").toLowerCase();
-
     return artists.filter((a) => {
-      const matchSearch =
-        !s ||
-        (a.name || "").toLowerCase().includes(s) ||
-        (a.city || "").toLowerCase().includes(s);
-
       const matchStatus =
         statusFilter === "All" ||
         (statusFilter === "Approved" && a.is_approved) ||
         (statusFilter === "Pending" && !a.is_approved);
 
-      return matchSearch && matchStatus;
+      return matchStatus;
     });
-  }, [artists, search, statusFilter]);
+  }, [artists, statusFilter]);
 
   const avgRating =
     artists.length > 0
@@ -140,12 +154,11 @@ export default function ArtistsScreen() {
         <View className="flex-row gap-x-2">
 
           <TouchableOpacity
-            className="w-[34] h-[34] rounded-md bg-dark-800 items-center justify-center border border-white/5"
-            onPress={() => toast.info(`Viewing ${artist.name}`)}
+             className="w-[34] h-[34] rounded-md bg-dark-800 items-center justify-center border border-white/5"
+             onPress={() => router.push(`/artists/${artist.id}`)}
           >
-            <Ionicons name="eye-outline" size={16} color="#94a3b8" />
+          <Ionicons name="eye-outline" size={16} color="#94a3b8" />
           </TouchableOpacity>
-
           <TouchableOpacity
             className="w-[34] h-[34] rounded-md bg-dark-800 items-center justify-center border border-white/5"
             onPress={() => toast.info(`Editing ${artist.name}`)}
@@ -220,6 +233,11 @@ export default function ArtistsScreen() {
             selectedStatus={statusFilter}
             onStatusChange={setStatusFilter}
           />
+          {searchLoading && (
+            <View className="py-2 items-center">
+              <ActivityIndicator size="small" color="#94a3b8" />
+            </View>
+          )}
         </>
       }
     />
