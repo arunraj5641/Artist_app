@@ -8,17 +8,14 @@ Service.destroy_all
 ArtistProfile.destroy_all
 User.destroy_all
 
-puts "Creating Admin..."
-User.create!(
-  email: 'admin@artistapp.com',
-  password: 'password123',
-  role: 'admin',
-  status: 'active'
-)
+require_relative 'mock_data'
 
-# Constants for realistic data
-CITIES = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose']
-SERVICE_NAMES = ['Basic Portrait', 'Full Body Painting', 'Logo Design', 'Digital Illustration', 'Speed Drawing', 'Character Design', 'Landscape Painting', 'Mural Design', 'Tattoo Flash', 'Calligraphy']
+puts "Creating Admin..."
+User.find_or_create_by!(email: 'admin@jothis.com') do |u|
+  u.password = 'password123'
+  u.role = 'admin'
+  u.status = 'active'
+end
 
 puts "Creating Artists..."
 10.times do |i|
@@ -31,9 +28,9 @@ puts "Creating Artists..."
 
   profile = ArtistProfile.create!(
     user: artist_user,
-    bio: "Passionate artist #{i+1} specializing in various forms of visual arts. With years of experience in the industry.",
+    bio: MockData::BIO_TEMPLATES.sample + " artist #{i+1} visual arts.",
     base_price: rand(50..200),
-    city: CITIES.sample,
+    city: MockData::CITIES.sample,
     experience_years: rand(2..15),
     is_approved: true,
     approved_at: Time.current
@@ -43,7 +40,7 @@ puts "Creating Artists..."
   rand(2..4).times do |j|
     Service.create!(
       artist_profile: profile,
-      name: "#{SERVICE_NAMES.sample} ##{i}-#{j}",
+      name: "#{MockData::SERVICE_NAMES.sample} ##{i}-#{j}",
       description: "High quality professional service provided by artist #{i+1}.",
       price: profile.base_price + rand(10..50),
       duration_minutes: [30, 60, 90, 120].sample
@@ -110,7 +107,7 @@ artist_profiles = ArtistProfile.all
         artist_profile: artist_profile,
         booking: booking,
         rating: rand(3..5),
-        comment: ["Great experience!", "Highly recommended.", "Amazing work!", "Very professional.", "Quality result."].sample
+        comment: MockData::REVIEW_COMMENTS.sample
       )
     end
   end

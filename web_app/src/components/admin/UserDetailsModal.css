@@ -1,0 +1,427 @@
+/* ── Modal Overlay ── */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 16px;
+}
+
+/* ── Modal Container ── */
+.admin-modal-container {
+    background: linear-gradient(135deg, rgba(38, 19, 37, 0.98) 0%, rgba(23, 10, 22, 0.98) 100%);
+    border: 1px solid rgba(236, 72, 153, 0.15);
+    border-radius: 20px;
+    width: 600px;
+    max-width: 90vw;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        0 32px 64px -12px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(236, 72, 153, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    animation: modalSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Modal Header ── */
+.admin-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(236, 72, 153, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-modal-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #f1f5f9;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Close Button ── */
+.close-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.close-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+/* ── Modal Body ── */
+.admin-modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: #cbd5e1;
+}
+
+/* ── User Profile Header ── */
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+    background: rgba(236, 72, 153, 0.05);
+    border: 1px solid rgba(236, 72, 153, 0.12);
+    border-radius: 14px;
+}
+
+.large-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ec4899, #be185d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+    flex-shrink: 0;
+}
+
+.profile-titles h2 {
+    margin: 0 0 4px 0;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.profile-titles .id {
+    margin: 0 0 10px 0;
+    font-size: 0.78rem;
+    color: #64748b;
+    font-family: 'Fira Code', monospace;
+}
+
+/* ── Badges ── */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 0.03em;
+}
+
+.badge-customer {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.badge-artist {
+    background: rgba(236, 72, 153, 0.12);
+    color: #ec4899;
+    border: 1px solid rgba(236, 72, 153, 0.25);
+}
+
+.badge-admin {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* ── Details Section ── */
+.details-section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(236, 72, 153, 0.1);
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px 0;
+    color: #f8fafc;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(236, 72, 153, 0.08);
+    padding-bottom: 12px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.detail-item .label {
+    font-size: 0.72rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+}
+
+.detail-item .value {
+    font-size: 0.875rem;
+    color: #f1f5f9;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.value.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.value.gold {
+    color: #f59e0b;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+}
+
+.gap-1 {
+    gap: 4px;
+}
+
+.tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.tag {
+    background: rgba(236, 72, 153, 0.1);
+    color: #f472b6;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    border: 1px solid rgba(236, 72, 153, 0.2);
+    font-weight: 500;
+}
+
+.description {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ── Modal Footer ── */
+.admin-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid rgba(236, 72, 153, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 9px 20px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}/* ── Add / Edit Modal Size ── */
+.add-user-modal {
+    max-width: 480px !important;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-user-form {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+}
+
+.add-user-form .admin-modal-body {
+    overflow-y: auto;
+    flex: 1;
+    gap: 16px;
+}
+
+/* ── Form Group ── */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #94a3b8;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.form-group label .required {
+    color: #ec4899;
+    margin-left: 2px;
+}
+
+/* ── Input Wrapper ── */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.input-with-icon .input-icon {
+    position: absolute;
+    left: 14px;
+    color: rgba(236, 72, 153, 0.5);
+    pointer-events: none;
+    z-index: 1;
+    transition: color 0.2s ease;
+}
+
+/* All form inputs + selects + textareas */
+.input-with-icon input,
+.input-with-icon select,
+.input-with-icon textarea {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid rgba(236, 72, 153, 0.15);
+    border-radius: 12px;
+    color: #f1f5f9;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.25s ease;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.input-with-icon textarea {
+    padding-top: 12px;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+}
+
+/* Focus state */
+.input-with-icon input:focus,
+.input-with-icon select:focus,
+.input-with-icon textarea:focus {
+    border-color: rgba(236, 72, 153, 0.5);
+    background: rgba(236, 72, 153, 0.04);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon color on parent focus */
+.input-with-icon:focus-within .input-icon {
+    color: #ec4899;
+}
+
+/* Placeholder */
+.input-with-icon input::placeholder,
+.input-with-icon textarea::placeholder {
+    color: #4a5568;
+    font-style: italic;
+}
+
+/* Select dropdown options */
+.input-with-icon select option {
+    background: #170a16;
+    color: #f1f5f9;
+}
+
+/* Dropdown caret for <select> */
+.input-with-icon select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+/* ── Spinner ── */
+.spinner-small {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin-sm 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin-sm {
+    to {
+        transform: rotate(360deg);
+    }
+}

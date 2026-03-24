@@ -8,18 +8,45 @@ Rails.application.routes.draw do
       post "login", to: "sessions#create"
       post "signup", to: "registrations#create"
       patch "password/update", to: "passwords#update"
+      delete "logout", to: "sessions#destroy"
+      get "me", to: "sessions#me"
 
       # Dashboard
       get "dashboard", to: "dashboard#index"
+      get "dashboard/admin", to: "dashboard#admin"
+      get "dashboard/artist", to: "dashboard#artist"
+      get "dashboard/summary", to: "dashboard#summary"
+
+      # Admin Dashboard APIs
+      namespace :admin do
+        get "dashboard", to: "dashboard#index"
+        get "recent-bookings", to: "dashboard#recent_bookings"
+        get "top-artists", to: "dashboard#top_artists"
+        get "revenue-chart", to: "dashboard#revenue_chart"
+        get "bookings-by-status", to: "dashboard#bookings_by_status"
+        get "activity-feed", to: "dashboard#activity_feed"
+      end
 
       # Resources
       resources :users
       resources :artist_profiles
       resources :services
-      resources :bookings
+      resources :service_categories
+      resources :organizations
+
+      resources :bookings do
+        collection do
+          get :my_bookings
+          get :artist_bookings
+        end
+      end
+
       resources :availabilities
       resources :reviews
       resources :payments
+
+      # Nested: artist availability
+      get "artists/:artist_id/availability", to: "availabilities#artist_availability"
     end
   end
 end

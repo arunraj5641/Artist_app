@@ -37,5 +37,9 @@ module Api
     # Enable sessions and cookies for API
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+    
+    # Custom Auth Middleware
+    require_relative "../lib/middleware/backend_auth_middleware"
+    config.middleware.use Middleware::BackendAuthMiddleware
   end
 end

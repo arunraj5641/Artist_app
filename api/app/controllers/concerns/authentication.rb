@@ -6,6 +6,10 @@ module Authentication
   end
 
   def authorize_request
+    # Use user already attached by middleware if available
+    @current_user = request.env['current_user']
+    return if @current_user
+
     header = request.headers['Authorization']
     header = header.split(' ').last if header
     begin
