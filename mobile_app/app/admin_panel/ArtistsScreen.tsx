@@ -10,6 +10,7 @@ import KPICard from "../../components/admin/KPICard";
 import { router } from "expo-router";
 import { toast } from "../../utils/toast";
 import { getArtists, Artist } from "../../services/artists";
+import { useArtists } from "../../hooks/useArtists";
 
 const STATUS_FILTERS = ["All", "Approved", "Pending"];
 
@@ -17,10 +18,8 @@ export default function ArtistsScreen() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [artists, setArtists] = useState<Artist[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchLoading, setSearchLoading] = useState(false);
-
+  const { artists, loading, searchLoading } = useArtists(debouncedSearch);
+  
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -30,30 +29,6 @@ export default function ArtistsScreen() {
       clearTimeout(handler);
     };
   }, [search]);
-
-  useEffect(() => {
-    const fetchArtists = async () => {
-      if (debouncedSearch) {
-        setSearchLoading(true);
-      } else {
-        setLoading(true);
-      }
-      try {
-        const data = await getArtists(debouncedSearch);
-        setArtists(data);
-      } catch (error) {
-        toast.error("Failed to load artists");
-      } finally {
-        if (debouncedSearch) {
-          setSearchLoading(false);
-        } else {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchArtists();
-  }, [debouncedSearch]);
 
   const filtered = useMemo(() => {
     return artists.filter((a) => {
