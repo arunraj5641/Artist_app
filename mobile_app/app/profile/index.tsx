@@ -1,30 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-
-import { getProfile, UserProfile } from "../../services/profile";
+import { useProfile } from "../../hooks/useProfile";
 
 export default function ProfileScreen() {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const data = await getProfile();
-        setUser(data);
-      } catch (err: any) {
-        console.error("Failed to load profile", err);
-        setError("Unable to load profile.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const { user, loading, error } = useProfile();
 
   if (loading) {
     return (

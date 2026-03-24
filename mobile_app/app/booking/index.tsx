@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Stack, useLocalSearchParams, router } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { createBooking } from "../../services/bookings";
+import { useCreateBooking } from "../../hooks/useCreateBooking";
 
 export default function BookingScreen() {
   const params = useLocalSearchParams();
@@ -38,8 +38,8 @@ export default function BookingScreen() {
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const { create, loading, error } = useCreateBooking();
 
   const today = useMemo(() => {
     const d = new Date();
@@ -133,9 +133,7 @@ export default function BookingScreen() {
     const endTime = calculateEndTime(selectedTime, parsedDuration);
 
     try {
-      setSubmitting(true);
-
-      await createBooking({
+      await create({
         artistProfileId: artistId as string,
         serviceId: serviceId as string,
         bookingDate: selectedDate,
@@ -161,8 +159,6 @@ export default function BookingScreen() {
         "Booking failed",
         error?.message || "Something went wrong. Please try again."
       );
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -304,7 +300,7 @@ export default function BookingScreen() {
             return (
               <TouchableOpacity
                 key={time}
-                disabled={disabled || submitting}
+                disabled={disabled || loading}
                 onPress={() => setSelectedTime(time)}
                 className={`flex-1 min-w-[30%] py-4 rounded-xl items-center border ${
                   disabled
@@ -337,15 +333,15 @@ export default function BookingScreen() {
           <Text className="text-white text-2xl font-bold">₹{price || 0}</Text>
         </View>
         <TouchableOpacity
-          disabled={!selectedDate || !selectedTime || submitting}
+          disabled={!selectedDate || !selectedTime || loading}
           onPress={handleBooking}
           className={`flex-1 rounded-2xl py-4 items-center justify-center ${
-            selectedDate && selectedTime && !submitting
+            selectedDate && selectedTime && !loading
               ? "bg-purple-600"
               : "bg-dark-800 border-white/5 opacity-60"
           }`}
         >
-          {submitting ? (
+          {loading ? (
             <ActivityIndicator color="#ffffff" />
           ) : (
             <Text className={`font-bold text-base ${
