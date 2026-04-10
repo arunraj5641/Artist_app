@@ -146,6 +146,8 @@ export default function AdminDrawer() {
           component={item.component}
           options={{
             title: item.label,
+            // Hide the default header on Dashboard — it has its own custom header
+            headerShown: item.name !== "Dashboard",
             headerRight: () => (
               <View className="flex-row items-center mr-4">
                 <Ionicons name="notifications-outline" size={22} color={Colors.textSecondary} className="mr-4" />

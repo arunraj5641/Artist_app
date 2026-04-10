@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 interface KPICardProps {
     title: string;
@@ -10,22 +11,92 @@ interface KPICardProps {
     accentColor?: string;
 }
 
-export default function KPICard({ title, value, icon, trend, trendPositive, accentColor }: KPICardProps) {
+export default function KPICard({
+    title,
+    value,
+    icon,
+    trend,
+    trendPositive,
+}: KPICardProps) {
     return (
-        <View className="bg-dark-700 rounded-2xl p-5 w-[170] mr-3 border border-white/5">
-            <View className="flex-row justify-between items-start mb-3">
-                <Text className="text-slate-400 text-xs font-medium flex-1">{title}</Text>
-                <View className="w-9 h-9 rounded-xl bg-white/5 items-center justify-center">
-                    {icon}
-                </View>
+        <View style={styles.card}>
+            <View style={styles.top}>
+                <Text style={styles.title}>{title}</Text>
+                <View style={styles.iconWrap}>{icon}</View>
             </View>
-            <Text className="text-white text-[28px] font-extrabold tracking-tight mb-1">{value}</Text>
+            <Text style={styles.value}>{value}</Text>
             {trend && (
-                <Text className={`text-[10px] font-semibold ${trendPositive ? "text-success" : "text-danger"}`}>
-                    {trend}
-                    <Text className="text-slate-500 font-normal"> vs last week</Text>
-                </Text>
+                <View style={styles.trendRow}>
+                    <Ionicons
+                        name={trendPositive ? "trending-up" : "trending-down"}
+                        size={11}
+                        color={trendPositive ? "#22c55e" : "#ef4444"}
+                    />
+                    <Text
+                        style={[
+                            styles.trendText,
+                            { color: trendPositive ? "#22c55e" : "#ef4444" },
+                        ]}
+                    >
+                        {" "}{trend}
+                    </Text>
+                    <Text style={styles.trendSub}> vs last week</Text>
+                </View>
             )}
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    card: {
+        backgroundColor: "#141e30",
+        borderRadius: 16,
+        padding: 18,
+        width: 170,
+        marginRight: 12,
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.06)",
+    },
+    top: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 12,
+    },
+    title: {
+        fontSize: 11,
+        color: "#64748b",
+        fontWeight: "500",
+        flex: 1,
+        textTransform: "uppercase",
+        letterSpacing: 0.5,
+    },
+    iconWrap: {
+        width: 36,
+        height: 36,
+        borderRadius: 10,
+        backgroundColor: "rgba(255,255,255,0.05)",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    value: {
+        fontSize: 26,
+        fontWeight: "800",
+        color: "#f8fafc",
+        letterSpacing: -0.5,
+        marginBottom: 4,
+    },
+    trendRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 2,
+    },
+    trendText: {
+        fontSize: 10,
+        fontWeight: "700",
+    },
+    trendSub: {
+        fontSize: 10,
+        color: "#475569",
+    },
+});
