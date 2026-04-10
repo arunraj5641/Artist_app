@@ -14,6 +14,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create artist_profile
       tags:
@@ -45,6 +47,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update artist_profile
       tags:
@@ -60,6 +64,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -80,6 +86,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -100,19 +108,27 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/artists":
     get:
       summary: List all artists
       tags:
       - Artists
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/artists/{id}":
     get:
       summary: Get artist details
       tags:
       - Artists
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -122,11 +138,15 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/artists/{id}/services":
     get:
       summary: Get artist services
       tags:
       - Artists
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -136,11 +156,15 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/artists/{id}/availability":
     get:
       summary: Get artist availability
       tags:
       - Artists
+      security:
+      - bearerAuth: []
       parameters:
       - name: id
         in: path
@@ -150,6 +174,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/availabilities":
     get:
       summary: List availabilities
@@ -160,6 +186,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create availability
       tags:
@@ -191,6 +219,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update availability
       tags:
@@ -206,6 +236,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -226,6 +258,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -246,6 +280,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/bookings":
     get:
       summary: List bookings
@@ -256,6 +292,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create booking
       tags:
@@ -287,6 +325,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update booking
       tags:
@@ -302,6 +342,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -322,6 +364,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -342,6 +386,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/bookings/my_bookings":
     get:
       summary: List my bookings
@@ -352,6 +398,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/bookings/artist_bookings":
     get:
       summary: List artist bookings
@@ -362,6 +410,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/dashboard":
     get:
       summary: Get main dashboard stats
@@ -372,6 +422,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/dashboard/admin":
     get:
       summary: Get admin dashboard stats
@@ -382,6 +434,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/dashboard/artist":
     get:
       summary: Get artist dashboard stats
@@ -392,6 +446,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/organizations":
     get:
       summary: List organizations
@@ -402,6 +458,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create organization
       tags:
@@ -433,6 +491,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update organization
       tags:
@@ -448,6 +508,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -468,6 +530,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -488,6 +552,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/payments":
     get:
       summary: List payments
@@ -498,6 +564,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create payment
       tags:
@@ -529,6 +597,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update payment
       tags:
@@ -544,6 +614,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -564,6 +636,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -584,6 +658,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/signup":
     post:
       summary: Create a new account
@@ -654,6 +730,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create review
       tags:
@@ -685,6 +763,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update review
       tags:
@@ -700,6 +780,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -720,6 +802,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -740,6 +824,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/service_categories":
     get:
       summary: List service_categories
@@ -750,6 +836,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create service_category
       tags:
@@ -781,6 +869,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update service_category
       tags:
@@ -796,6 +886,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -816,6 +908,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -836,6 +930,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/services":
     get:
       summary: List services
@@ -846,6 +942,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create service
       tags:
@@ -877,6 +975,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update service
       tags:
@@ -892,6 +992,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -912,6 +1014,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -932,6 +1036,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
   "/api/v1/login":
     post:
       summary: Login
@@ -983,6 +1089,8 @@ paths:
       summary: Logout
       tags:
       - Authentication
+      security:
+      - bearerAuth: []
       responses:
         '200':
           description: logged out successfully
@@ -996,6 +1104,8 @@ paths:
       responses:
         '200':
           description: profile retrieved
+        '401':
+          description: unauthorized
     patch:
       summary: Update profile
       tags:
@@ -1008,6 +1118,8 @@ paths:
           description: profile updated
         '422':
           description: invalid request
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -1035,6 +1147,8 @@ paths:
       responses:
         '200':
           description: account deleted
+        '401':
+          description: unauthorized
   "/api/v1/users":
     get:
       summary: List users
@@ -1045,6 +1159,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     post:
       summary: Create user
       tags:
@@ -1076,6 +1192,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
     patch:
       summary: Update user
       tags:
@@ -1091,6 +1209,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -1111,6 +1231,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -1131,6 +1253,8 @@ paths:
       responses:
         '200':
           description: success
+        '401':
+          description: unauthorized
 servers:
 - url: https://{defaultHost}
   variables:

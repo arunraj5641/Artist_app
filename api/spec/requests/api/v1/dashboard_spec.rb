@@ -9,6 +9,13 @@ RSpec.describe 'Api::V1::Dashboard', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
   end
 
@@ -20,6 +27,13 @@ RSpec.describe 'Api::V1::Dashboard', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
   end
 
@@ -30,6 +44,13 @@ RSpec.describe 'Api::V1::Dashboard', type: :request do
       security [bearerAuth: []]
       response '200', 'success' do
         run_test!
+      end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
       end
     end
   end

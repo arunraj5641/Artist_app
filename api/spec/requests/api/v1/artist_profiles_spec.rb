@@ -9,6 +9,13 @@ RSpec.describe 'Api::V1::ArtistProfiles', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
 
     post 'Create artist_profile' do
@@ -32,6 +39,13 @@ RSpec.describe 'Api::V1::ArtistProfiles', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
 
     patch 'Update artist_profile' do
@@ -43,6 +57,13 @@ RSpec.describe 'Api::V1::ArtistProfiles', type: :request do
       parameter name: :artist_profile, in: :body, schema: { type: :object }
       response '200', 'success' do
         run_test!
+      end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
       end
     end
 
@@ -56,6 +77,13 @@ RSpec.describe 'Api::V1::ArtistProfiles', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
 
     delete 'Delete artist_profile' do
@@ -65,6 +93,13 @@ RSpec.describe 'Api::V1::ArtistProfiles', type: :request do
       parameter name: :id, in: :path, type: :string
       response '200', 'success' do
         run_test!
+      end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
       end
     end
   end

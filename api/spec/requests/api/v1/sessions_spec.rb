@@ -44,6 +44,7 @@ RSpec.describe 'Api::V1::Sessions', type: :request do
     delete 'Logout' do
       tags 'Authentication'
       produces 'application/json'
+      security [bearerAuth: []]
 
       response '200', 'logged out successfully' do
         run_test!
@@ -58,6 +59,10 @@ RSpec.describe 'Api::V1::Sessions', type: :request do
       security [bearerAuth: []]
 
       response '200', 'profile retrieved' do
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
         run_test!
       end
     end
@@ -86,6 +91,10 @@ RSpec.describe 'Api::V1::Sessions', type: :request do
       response '422', 'invalid request' do
         run_test!
       end
+
+      response '401', 'unauthorized' do
+        run_test!
+      end
     end
 
     delete 'Delete profile' do
@@ -94,6 +103,10 @@ RSpec.describe 'Api::V1::Sessions', type: :request do
       security [bearerAuth: []]
 
       response '200', 'account deleted' do
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
         run_test!
       end
     end

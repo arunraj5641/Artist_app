@@ -9,6 +9,13 @@ RSpec.describe 'Api::V1::ServiceCategories', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
 
     post 'Create service_category' do
@@ -32,6 +39,13 @@ RSpec.describe 'Api::V1::ServiceCategories', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
 
     patch 'Update service_category' do
@@ -43,6 +57,13 @@ RSpec.describe 'Api::V1::ServiceCategories', type: :request do
       parameter name: :service_category, in: :body, schema: { type: :object }
       response '200', 'success' do
         run_test!
+      end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
       end
     end
 
@@ -56,6 +77,13 @@ RSpec.describe 'Api::V1::ServiceCategories', type: :request do
       response '200', 'success' do
         run_test!
       end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
+      end
     end
 
     delete 'Delete service_category' do
@@ -65,6 +93,13 @@ RSpec.describe 'Api::V1::ServiceCategories', type: :request do
       parameter name: :id, in: :path, type: :string
       response '200', 'success' do
         run_test!
+      end
+
+
+      response '401', 'unauthorized' do
+
+        run_test!
+
       end
     end
   end
