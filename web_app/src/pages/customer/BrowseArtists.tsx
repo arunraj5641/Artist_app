@@ -58,7 +58,7 @@ const BrowseArtistsPage: React.FC = () => {
     }, [artistProfiles, searchQuery]);
 
     const avatarGradients = ['avatar-gradient-1', 'avatar-gradient-2', 'avatar-gradient-3', 'avatar-gradient-4', 'avatar-gradient-5'];
-    const getAvatarGradient = (id: string) => avatarGradients[id.charCodeAt(0) % avatarGradients.length];
+    const getAvatarGradient = (id: string) => avatarGradients[String(id).charCodeAt(0) % avatarGradients.length];
     const getDisplayName = (artist: ArtistProfile) => artist.name || 'Artist';
     const getInitial = (artist: ArtistProfile) => (artist.name || 'A').charAt(0).toUpperCase();
 

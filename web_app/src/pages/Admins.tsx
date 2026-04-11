@@ -78,7 +78,14 @@ const AdminsPage: React.FC = () => {
         return <div className="admin-loading"><div className="spinner" /> Loading admins...</div>;
     }
     if (error) {
-        return <div className="admin-error">Failed to load admins.</div>;
+        return (
+            <div className="admin-error" style={{ padding: '24px' }}>
+                <strong>Failed to load admins.</strong>
+                <pre style={{ marginTop: 8, fontSize: '0.78rem', color: '#f87171', whiteSpace: 'pre-wrap' }}>
+                    {(error as any)?.message || String(error)}
+                </pre>
+            </div>
+        );
     }
 
     const activeAdminsCount = meta?.active_count ?? adminUsers.filter((u: User) => u.status === 'active' || !u.status).length;
@@ -193,7 +200,7 @@ const AdminsPage: React.FC = () => {
                                             </div>
                                             <div className="td-user-info">
                                                 <div className="td-name">{user.name || user.email.split('@')[0]}</div>
-                                                <div className="td-id">ID: {user.id.slice(0, 8)}</div>
+                                                <div className="td-id">ID: {String(user.id).slice(0, 8)}</div>
                                             </div>
                                         </div>
                                     </td>

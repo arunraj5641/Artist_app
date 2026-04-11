@@ -124,7 +124,7 @@ const MyBookingsPage: React.FC = () => {
                                 <div className="item-card-header">
                                     <div>
                                         <p className="item-card-title">
-                                            Booking #{booking.id.slice(0, 8)}
+                                            Booking #{String(booking.id).slice(0, 8)}
                                         </p>
                                         <p className="item-card-subtitle">
                                             {new Date(booking.booking_date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}

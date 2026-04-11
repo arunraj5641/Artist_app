@@ -128,7 +128,7 @@ const UsersPage: React.FC = () => {
                         </div>
                         <div>
                           <p className="user-email">{user.email}</p>
-                          <p className="user-id">#{user.id.slice(0, 8)}</p>
+                          <p className="user-id">#{String(user.id).slice(0, 8)}</p>
                         </div>
                       </div>
                     </td>

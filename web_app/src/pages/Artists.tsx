@@ -33,7 +33,7 @@ const ArtistsPage: React.FC = () => {
             return !query ||
                 (a.bio || '').toLowerCase().includes(query) ||
                 (a.city || '').toLowerCase().includes(query) ||
-                a.user_id.toLowerCase().includes(query) ||
+                String(a.user_id).toLowerCase().includes(query) ||
                 (a.user?.email || '').toLowerCase().includes(query);
         });
     }, [artistProfiles, searchQuery]);
@@ -46,7 +46,7 @@ const ArtistsPage: React.FC = () => {
     }), [artistProfiles]);
 
     const avatarGradients = ['avatar-gradient-1', 'avatar-gradient-2', 'avatar-gradient-3', 'avatar-gradient-4', 'avatar-gradient-5'];
-    const getAvatarGradient = (id: string) => avatarGradients[id.charCodeAt(0) % avatarGradients.length];
+    const getAvatarGradient = (id: string) => avatarGradients[String(id).charCodeAt(0) % avatarGradients.length];
 
     const getInitial = (artist: ArtistProfile) => {
         if (artist.user?.email) return artist.user.email.charAt(0).toUpperCase();
@@ -169,7 +169,7 @@ const ArtistsPage: React.FC = () => {
                                         {getInitial(artist)}
                                     </div>
                                     <div className="artist-card-info">
-                                        <p className="artist-email">{artist.name || artist.user?.name || artist.user?.email || `Artist #${artist.id.slice(0, 8)}`}</p>
+                                        <p className="artist-email">{artist.name || artist.user?.name || artist.user?.email || `Artist #${String(artist.id).slice(0, 8)}`}</p>
                                         <p className="artist-city">
                                             <MapPin size={12} />
                                             {artist.city || 'Location not set'}
@@ -279,9 +279,9 @@ const ArtistsPage: React.FC = () => {
                                     </div>
                                     <div>
                                         <p className="artist-modal-name">
-                                            {selectedArtist.name || selectedArtist.user?.name || selectedArtist.user?.email || `Artist #${selectedArtist.id.slice(0, 8)}`}
+                                            {selectedArtist.name || selectedArtist.user?.name || selectedArtist.user?.email || `Artist #${String(selectedArtist.id).slice(0, 8)}`}
                                         </p>
-                                        <p className="artist-modal-id">ID: {selectedArtist.id.slice(0, 16)}…</p>
+                                        <p className="artist-modal-id">ID: {String(selectedArtist.id).slice(0, 16)}…</p>
                                     </div>
                                 </div>
 

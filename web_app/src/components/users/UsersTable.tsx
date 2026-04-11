@@ -67,7 +67,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
                                         </div>
                                         <div className="td-user-info">
                                             <div className="td-name">{user.name || user.email.split('@')[0]}</div>
-                                            <div className="td-id">ID: {user.id.slice(0, 8)}</div>
+                                            <div className="td-id">ID: {String(user.id).slice(0, 8)}</div>
                                         </div>
                                     </div>
                                 </td>

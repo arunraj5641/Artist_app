@@ -27,10 +27,49 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: 20, color: 'red' }}>
-          <h1>Sorry.. there was an error</h1>
-          <pre>{this.state.error?.toString()}</pre>
-          <pre>{this.state.error?.stack}</pre>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '48px 24px',
+          minHeight: '300px',
+          textAlign: 'center',
+        }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 16,
+            background: 'rgba(239,68,68,0.12)',
+            border: '1px solid rgba(239,68,68,0.3)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: 20, fontSize: 28,
+          }}>⚠️</div>
+          <h2 style={{ color: '#f1f5f9', marginBottom: 8, fontFamily: 'Outfit, sans-serif' }}>
+            Something went wrong
+          </h2>
+          <p style={{ color: '#64748b', marginBottom: 8, fontSize: '0.875rem', maxWidth: 400 }}>
+            This page encountered an error. Check the browser console for details.
+          </p>
+          <p style={{
+            color: '#ef4444', fontSize: '0.78rem',
+            background: 'rgba(239,68,68,0.08)',
+            border: '1px solid rgba(239,68,68,0.2)',
+            borderRadius: 8, padding: '8px 16px',
+            marginBottom: 24, maxWidth: 480,
+            fontFamily: 'monospace', wordBreak: 'break-word',
+          }}>
+            {this.state.error?.message}
+          </p>
+          <button
+            onClick={() => this.setState({ hasError: false, error: null })}
+            style={{
+              background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+              border: 'none', borderRadius: 10, padding: '10px 24px',
+              color: 'white', fontWeight: 600, cursor: 'pointer',
+              fontSize: '0.875rem', fontFamily: 'Inter, sans-serif',
+            }}
+          >
+            Try Again
+          </button>
         </div>
       );
     }
