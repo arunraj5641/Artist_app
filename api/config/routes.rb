@@ -30,6 +30,9 @@ Rails.application.routes.draw do
           get :my_bookings
           get :artist_bookings
         end
+        member do
+          patch :cancel
+        end
       end
 
       resources :availabilities

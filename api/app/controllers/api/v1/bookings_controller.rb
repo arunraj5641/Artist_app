@@ -34,7 +34,21 @@ module Api
         @bookings = paginate(collection)
         render_paginated_success(@bookings, message: "Bookings retrieved successfully")
       end
+      
+      def show
+        booking = Booking
+                   .includes(:service, :artist_profile, :customer)
+                   .find(params[:id])
 
+        authorize! :read, booking
+
+        render json: {
+        success: true,
+        message: "Booking retrieved successfully",
+        data: ActiveModelSerializers::SerializableResource.new(booking)
+        }
+      end
+      
       # GET /api/v1/bookings/my_bookings
       # Returns bookings where the current user is the customer
       def my_bookings
@@ -61,6 +75,41 @@ module Api
         # Just need to destroy it and respond
         authorize! :destroy, @booking
         render_success(message: 'Booking deleted successfully')
+      end
+
+      def cancel
+        booking = Booking.find(params[:id])
+
+        # Authorization (only owner or admin)
+        authorize! :update, booking
+
+        # Idempotent behavior: already cancelled
+         if booking.status == "cancelled"
+           return render_success(
+              message: "Booking already cancelled"
+           )
+         end
+
+        # Business rule: only pending can be cancelled
+         unless booking.status == "pending"
+           return render_error(
+            message: "Only pending bookings can be cancelled",
+            status: :unprocessable_entity
+          )
+         end
+
+         # Transaction for safety
+         Booking.transaction do
+           booking.update!(status: "cancelled")
+           
+           # Side effect (placeholder for async job)
+           Rails.logger.info "Notify artist #{booking.artist_profile_id} about cancellation"
+         end
+         # TODO: notify artist (we'll improve later)
+
+         render_success(
+            message: "Booking cancelled successfully"
+         ) 
       end
 
       private
