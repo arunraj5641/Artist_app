@@ -42,11 +42,10 @@ module Api
 
         authorize! :read, booking
 
-        render json: {
-        success: true,
-        message: "Booking retrieved successfully",
-        data: ActiveModelSerializers::SerializableResource.new(booking)
-        }
+        render_success(
+          data: booking,
+          message: "Booking retrieved successfully"
+        )
       end
       
       # GET /api/v1/bookings/my_bookings
