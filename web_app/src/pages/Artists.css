@@ -26,12 +26,12 @@
     width: 42px;
     height: 42px;
     border-radius: var(--border-radius-md);
-    background: linear-gradient(135deg, #ec4899, #e63946);
+    background: linear-gradient(135deg, #9400D3, #ED80E9);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    box-shadow: 0 4px 14px rgba(236, 72, 153, 0.3);
+    box-shadow: 0 4px 14px rgba(148, 0, 211, 0.4);
 }
 
 .artists-header h1 {
@@ -101,8 +101,8 @@
 }
 
 .artists-stat-icon.blue {
-    background: rgba(236, 72, 153, 0.15);
-    color: #f472b6;
+    background: rgba(148, 0, 211, 0.15);
+    color: #ED80E9;
 }
 
 .artists-stat-icon.green {
@@ -116,7 +116,7 @@
 }
 
 .artists-stat-icon.purple {
-    background: rgba(236, 72, 153, 0.15);
+    background: rgba(148, 0, 211, 0.15);
     color: #a78bfa;
 }
 
@@ -237,9 +237,9 @@
 }
 
 .filter-pill.active {
-    background: rgba(236, 72, 153, 0.15);
-    border-color: rgba(236, 72, 153, 0.4);
-    color: #f472b6;
+    background: rgba(148, 0, 211, 0.15);
+    border-color: rgba(148, 0, 211, 0.4);
+    color: #ED80E9;
 }
 
 /* ── Artist Cards Grid ── */
@@ -290,11 +290,11 @@
 }
 
 .avatar-gradient-1 {
-    background: linear-gradient(135deg, #ec4899, #e63946);
+    background: linear-gradient(135deg, #9400D3, #ED80E9);
 }
 
 .avatar-gradient-2 {
-    background: linear-gradient(135deg, #ec4899, #ffb703);
+    background: linear-gradient(135deg, #7b00a3, #D3D3FF);
 }
 
 .avatar-gradient-3 {
@@ -455,15 +455,15 @@
 }
 
 .artist-action-btn.view:hover {
-    background: rgba(236, 72, 153, 0.15);
-    color: #f472b6;
-    border-color: rgba(236, 72, 153, 0.3);
+    background: rgba(148, 0, 211, 0.15);
+    color: #ED80E9;
+    border-color: rgba(148, 0, 211, 0.3);
 }
 
 .artist-action-btn.edit:hover {
-    background: rgba(236, 72, 153, 0.15);
+    background: rgba(148, 0, 211, 0.15);
     color: #a78bfa;
-    border-color: rgba(236, 72, 153, 0.3);
+    border-color: rgba(148, 0, 211, 0.3);
 }
 
 .artist-action-btn.delete:hover {
@@ -555,16 +555,16 @@
     width: 100%;
     max-width: 520px;
     background: linear-gradient(135deg, rgba(38, 19, 37, 0.98) 0%, rgba(23, 10, 22, 0.98) 100%);
-    border: 1px solid rgba(236, 72, 153, 0.15);
+    border: 1px solid rgba(148, 0, 211, 0.15);
     border-radius: 20px;
     box-shadow:
         0 32px 64px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(236, 72, 153, 0.06),
+        0 0 0 1px rgba(148, 0, 211, 0.06),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
     max-height: 90vh;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(236, 72, 153, 0.2) transparent;
+    scrollbar-color: rgba(148, 0, 211, 0.2) transparent;
 }
 
 .artist-modal-card::-webkit-scrollbar {
@@ -576,7 +576,7 @@
 }
 
 .artist-modal-card::-webkit-scrollbar-thumb {
-    background: rgba(236, 72, 153, 0.25);
+    background: rgba(148, 0, 211, 0.25);
     border-radius: 4px;
 }
 
@@ -586,7 +586,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 18px 22px;
-    border-bottom: 1px solid rgba(236, 72, 153, 0.1);
+    border-bottom: 1px solid rgba(148, 0, 211, 0.1);
     background: rgba(255, 255, 255, 0.02);
     position: sticky;
     top: 0;
@@ -639,8 +639,8 @@
     align-items: center;
     gap: 16px;
     padding: 16px;
-    background: rgba(236, 72, 153, 0.05);
-    border: 1px solid rgba(236, 72, 153, 0.1);
+    background: rgba(148, 0, 211, 0.05);
+    border: 1px solid rgba(148, 0, 211, 0.1);
     border-radius: 14px;
 }
 
@@ -708,15 +708,15 @@
 }
 
 .artist-modal-info-value.pink {
-    color: #f472b6;
+    color: #ED80E9;
     font-weight: 600;
 }
 
 /* ── Bio Box ── */
 .artist-modal-bio-box {
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(236, 72, 153, 0.1);
-    border-left: 3px solid #ec4899;
+    border: 1px solid rgba(148, 0, 211, 0.1);
+    border-left: 3px solid #9400D3;
     border-radius: 0 12px 12px 0;
     padding: 14px 16px;
     font-size: 0.85rem;
@@ -760,7 +760,7 @@
 }
 
 .artist-service-card:hover {
-    border-color: rgba(236, 72, 153, 0.2);
+    border-color: rgba(148, 0, 211, 0.2);
 }
 
 .artist-service-top {
@@ -789,7 +789,7 @@
 .artist-service-price {
     font-size: 1rem;
     font-weight: 700;
-    color: #ec4899;
+    color: #9400D3;
     flex-shrink: 0;
 }
 

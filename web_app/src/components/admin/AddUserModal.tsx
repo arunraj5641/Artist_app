@@ -64,7 +64,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ role, onClose }) => {
     const getRoleColor = () => {
         switch (role) {
             case 'admin': return '#ef4444';
-            case 'artist': return '#ec4899';
+            case 'artist': return '#9400D3';
             default: return '#10b981';
         }
     };

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Palette, Mail, Lock, AlertCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { Palette, Mail, Lock, User, AlertCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { AuthService } from '../services/AuthService';
 import Button from '../components/Button';
 import './Login.css'; // Reuse login styles
 import { motion } from 'framer-motion';
 
 const Signup: React.FC = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +30,7 @@ const Signup: React.FC = () => {
 
         try {
             const response = await AuthService.signup({
+                name,
                 email,
                 password,
                 password_confirmation: confirmPassword,
@@ -101,6 +103,20 @@ const Signup: React.FC = () => {
                                 <ArrowRight size={18} />
                                 <span>I'm a Client</span>
                             </button>
+                        </div>
+
+                        <div className="input-group">
+                            <label>Full Name</label>
+                            <div className="input-wrapper">
+                                <User size={18} />
+                                <input
+                                    type="text"
+                                    placeholder="Your display name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div className="input-group">

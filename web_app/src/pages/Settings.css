@@ -1,0 +1,190 @@
+.settings-page {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Header */
+.settings-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.settings-header-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--border-radius-md);
+    background: linear-gradient(135deg, #9400D3, #ED80E9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 14px rgba(148, 0, 211, 0.4);
+    flex-shrink: 0;
+}
+
+.settings-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.settings-header p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 3px 0 0;
+}
+
+/* Profile Card */
+.settings-profile-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(148, 0, 211, 0.08) 0%, rgba(237, 128, 233, 0.04) 100%);
+    border: 1px solid rgba(148, 0, 211, 0.2);
+    border-radius: var(--border-radius-lg);
+}
+
+.settings-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9400D3, #ED80E9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    border: 2px solid rgba(148, 0, 211, 0.4);
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(148, 0, 211, 0.3);
+}
+
+.settings-profile-email {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 6px;
+}
+
+.settings-role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    background: rgba(148, 0, 211, 0.15);
+    color: #ED80E9;
+    border: 1px solid rgba(148, 0, 211, 0.3);
+}
+
+/* Sections */
+.settings-section-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 8px 4px;
+}
+
+.settings-items {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+.settings-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 200ms ease;
+    text-align: left;
+    border-radius: 0;
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.settings-item-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(148, 0, 211, 0.12);
+    border: 1px solid rgba(148, 0, 211, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ED80E9;
+    flex-shrink: 0;
+}
+
+.settings-item-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.settings-item-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.settings-item-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.settings-item-arrow {
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: color 200ms ease;
+}
+
+.settings-item:hover .settings-item-arrow {
+    color: #ED80E9;
+}
+
+/* Danger (Logout) */
+.settings-item-danger:hover {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+.settings-item-icon-danger {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border-color: rgba(239, 68, 68, 0.2) !important;
+    color: #f87171 !important;
+}
+
+.settings-item-danger .settings-item-label {
+    color: #f87171;
+}
+
+.settings-item-danger:hover .settings-item-arrow {
+    color: #f87171;
+}

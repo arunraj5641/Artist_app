@@ -14,6 +14,7 @@ module Api
               token: token, 
               exp: time.strftime("%m-%d-%Y %H:%M"),
               id: @user.id,
+              name: @user.name,
               email: @user.email,
               role: @user.role
             }, 

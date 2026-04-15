@@ -62,7 +62,7 @@ class ErrorBoundary extends Component<Props, State> {
           <button
             onClick={() => this.setState({ hasError: false, error: null })}
             style={{
-              background: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+              background: 'linear-gradient(135deg, #9400D3, #8b5cf6)',
               border: 'none', borderRadius: 10, padding: '10px 24px',
               color: 'white', fontWeight: 600, cursor: 'pointer',
               fontSize: '0.875rem', fontFamily: 'Inter, sans-serif',

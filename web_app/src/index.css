@@ -5,17 +5,17 @@
   --font-heading: 'Outfit', var(--font-sans);
 
   /* Premium Color Palette */
-  --bg-primary: #170a16;
-  --bg-secondary: #261325;
-  --bg-tertiary: #3a1d38;
+  --bg-primary: #0f0a17;
+  --bg-secondary: #191026;
+  --bg-tertiary: #26173a;
 
-  --accent-primary: #ec4899;
-  --accent-secondary: #f472b6;
-  --accent-dark: #be185d;
+  --accent-primary: #9400D3;
+  --accent-secondary: #ED80E9;
+  --accent-dark: #5a0082;
 
   --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-secondary: #D3D3FF;
+  --text-muted: #D8BFD8;
 
   --success: #10b981;
   --error: #ef4444;
@@ -92,7 +92,7 @@ button {
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-dark) 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25);
+  box-shadow: 0 4px 12px rgba(148, 0, 211, 0.25);
 }
 
 .btn-primary:active {
@@ -101,7 +101,7 @@ button {
 
 .btn-primary:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 8px 24px rgba(148, 0, 211, 0.4);
   background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-primary) 100%);
 }
 
@@ -232,8 +232,8 @@ button {
 
 .card-hover:hover {
   transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 24px -10px rgba(236, 72, 153, 0.3);
-  border-color: rgba(236, 72, 153, 0.4);
+  box-shadow: 0 12px 24px -10px rgba(148, 0, 211, 0.3);
+  border-color: rgba(148, 0, 211, 0.4);
 }
 /* Auto-applied premium card hovers */
 .stat-card:hover, 
@@ -242,8 +242,8 @@ button {
 .login-card:hover,
 .content-card:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 16px 32px -10px rgba(236, 72, 153, 0.35);
-  border-color: rgba(236, 72, 153, 0.5) !important;
+  box-shadow: 0 16px 32px -10px rgba(148, 0, 211, 0.35);
+  border-color: rgba(148, 0, 211, 0.5) !important;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -261,12 +261,12 @@ button:hover svg,
 .stat-card:hover svg,
 .action-card:hover svg {
   transform: scale(1.15) rotate(-5deg);
-  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6));
-  color: #f472b6 !important;
+  filter: drop-shadow(0 0 8px rgba(148, 0, 211, 0.6));
+  color: var(--accent-secondary) !important;
 }
 
 /* Pink glow elements */
 .pink-glow {
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
-  border: 1px solid rgba(236, 72, 153, 0.8);
+  box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
+  border: 1px solid rgba(148, 0, 211, 0.8);
 }

@@ -43,7 +43,7 @@ const ToastItem: React.FC<{ toast: Toast; onRemove: (id: string) => void }> = ({
         switch (toast.type) {
             case 'success': return { color: '#10b981', bg: 'rgba(16, 185, 129, 0.12)', glow: 'rgba(16, 185, 129, 0.25)' };
             case 'error': return { color: '#ef4444', bg: 'rgba(239, 68, 68, 0.12)', glow: 'rgba(239, 68, 68, 0.25)' };
-            case 'info': return { color: '#ec4899', bg: 'rgba(236, 72, 153, 0.12)', glow: 'rgba(236, 72, 153, 0.25)' };
+            case 'info': return { color: '#9400D3', bg: 'rgba(148, 0, 211, 0.12)', glow: 'rgba(148, 0, 211, 0.25)' };
         }
     };
 

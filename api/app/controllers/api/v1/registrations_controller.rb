@@ -34,7 +34,7 @@ module Api
       private
 
       def user_params
-        permitted = params.require(:user).permit(:email, :password, :password_confirmation, :role)
+        permitted = params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
         permitted[:role] = 'customer' if permitted[:role] == 'admin'
         permitted
       end

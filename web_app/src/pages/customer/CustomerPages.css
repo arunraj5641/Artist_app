@@ -79,7 +79,7 @@
 .customer-service-price {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #f472b6;
+    color: #ED80E9;
 }
 
 .book-btn {
@@ -87,7 +87,7 @@
     align-items: center;
     gap: 4px;
     padding: 5px 12px;
-    background: linear-gradient(135deg, #ec4899, #ffb703);
+    background: linear-gradient(135deg, #9400D3, #ffb703);
     color: white;
     border: none;
     border-radius: 6px;
@@ -145,7 +145,7 @@
 .booking-service-price {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #f472b6;
+    color: #ED80E9;
     flex-shrink: 0;
 }
 
@@ -184,7 +184,7 @@
 
 .booking-field input:focus {
     outline: none;
-    border-color: #ec4899;
+    border-color: #9400D3;
     background: rgba(236, 72, 153, 0.06);
 }
 
@@ -225,7 +225,7 @@
 
 .booking-confirm-btn {
     padding: 9px 22px;
-    background: linear-gradient(135deg, #ec4899, #ffb703);
+    background: linear-gradient(135deg, #9400D3, #ffb703);
     border: none;
     border-radius: 8px;
     color: white;

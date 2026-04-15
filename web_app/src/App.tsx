@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import Layout from './components/Layout';
 import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/Dashboard';
@@ -11,6 +12,7 @@ import MyServicesPage from './pages/artist/MyServices';
 import MyBookingsPage from './pages/artist/MyBookings';
 import MyReviewsPage from './pages/artist/MyReviews';
 import BrowseArtistsPage from './pages/customer/BrowseArtists';
+import SettingsPage from './pages/Settings';
 import { AuthService } from './services/AuthService';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from './components/common/Toast';
@@ -34,6 +36,13 @@ const RoleGuard = ({ children, allowedRoles }: { children: React.ReactNode; allo
 };
 
 function App() {
+  useEffect(() => {
+    // Refresh user profile on app load to get name for existing sessions
+    if (AuthService.getCurrentUser()) {
+      AuthService.refreshCurrentUser();
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
@@ -72,7 +81,7 @@ function App() {
               <Route path="reviews" element={<ErrorBoundary><RoleGuard allowedRoles={['admin']}><MyReviewsPage /></RoleGuard></ErrorBoundary>} />
 
               {/* Shared Pages */}
-              <Route path="settings" element={<div style={{ padding: '24px', color: '#94a3b8' }}><h1 style={{ color: '#f8fafc', marginBottom: '8px' }}>Account Settings</h1><p>Settings page coming soon.</p></div>} />
+              <Route path="settings" element={<SettingsPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

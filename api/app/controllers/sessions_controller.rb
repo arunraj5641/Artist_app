@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
           token: token, 
           exp: time.strftime("%m-%d-%Y %H:%M"),
           email: @user.email,
+          name: @user.name,
           role: @user.role
         }, 
         message: 'Login successful'
