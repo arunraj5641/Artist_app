@@ -122,13 +122,22 @@ module Api
       end
 
       def collection
-        if current_user.role == 'admin'
-          Booking.all
-        elsif current_user.role == 'artist'
-          Booking.where(artist_profile_id: current_user.artist_profile&.id)
-        else
-          Booking.where(customer_id: current_user.id)
-        end.order(booking_date: :desc)
+        base = Booking.includes(:service, :artist_profile, :payment, :customer)
+         
+        scoped =
+          if current_user.role == 'admin'
+            base
+          elsif current_user.role == 'artist'
+            base.where(artist_profile_id: current_user.artist_profile&.id)
+          else
+            base.where(customer_id: current_user.id)
+          end
+
+        if params[:status].present?
+          scoped = scoped.where(status: params[:status])
+        end
+        
+        scoped.reorder(booking_date: :desc, created_at: :desc)
       end
     end
   end
