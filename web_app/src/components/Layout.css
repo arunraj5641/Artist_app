@@ -10,7 +10,8 @@
 .layout-body-row {
     display: flex;
     flex: 1;
-    overflow: hidden; /* prevents layout shift, child will scroll */
+    overflow: hidden;
+    /* prevents layout shift, child will scroll */
 }
 
 .sidebar {
@@ -22,7 +23,7 @@
     border-right: 1px solid var(--glass-border);
     background: rgba(255, 255, 255, 0.02);
     transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1),
-                padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        padding 300ms cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
     overflow-y: auto;
 }

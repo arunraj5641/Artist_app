@@ -25,7 +25,7 @@
 .artists-header-icon {
     width: 42px;
     height: 42px;
-    border-radius: var(--border-radius-md);
+    border-radius: 3px;
     background: linear-gradient(135deg, #9400D3, #ED80E9);
     display: flex;
     align-items: center;
@@ -52,7 +52,7 @@
     align-items: center;
     gap: 8px;
     padding: 6px 14px;
-    border-radius: var(--border-radius-sm);
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.875rem;
@@ -76,7 +76,7 @@
 
 .artists-stat-card {
     padding: 20px;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-lg) 0 var(--border-radius-lg) 0;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
     display: flex;
@@ -93,7 +93,7 @@
 .artists-stat-icon {
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +151,7 @@
 
 /* ── Table Card ── */
 .artists-table-card {
-    border-radius: var(--border-radius-lg);
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(16px);
@@ -251,7 +251,7 @@
 }
 
 .artist-card {
-    border-radius: var(--border-radius-md);
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
     padding: 20px;
@@ -373,7 +373,7 @@
     overflow: hidden;
     padding: 12px;
     background: rgba(255, 255, 255, 0.02);
-    border-radius: var(--border-radius-sm);
+    border-radius: 3px;
     border-left: 3px solid var(--accent-primary);
 }
 
@@ -393,7 +393,7 @@
 .artist-mini-stat {
     text-align: center;
     padding: 10px 8px;
-    border-radius: var(--border-radius-sm);
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -438,7 +438,7 @@
 .artist-action-btn {
     width: 32px;
     height: 32px;
-    border-radius: var(--border-radius-sm);
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;

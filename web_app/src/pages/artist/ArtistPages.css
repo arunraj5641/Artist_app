@@ -96,7 +96,7 @@
 
 .stat-card {
     padding: 20px;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-lg) 0 var(--border-radius-lg) 0;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
     display: flex;
@@ -159,7 +159,7 @@
 
 /* ── Content Card (Table/List Wrapper) ── */
 .content-card {
-    border-radius: var(--border-radius-lg);
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
     backdrop-filter: blur(16px);
@@ -260,7 +260,7 @@
 
 /* ── Item Card ── */
 .item-card {
-    border-radius: var(--border-radius-md);
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
     padding: 20px;

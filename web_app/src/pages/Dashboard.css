@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-lg) 0 var(--border-radius-lg) 0;
     transition: var(--transition-normal);
     cursor: default;
 }
@@ -93,7 +93,8 @@
 .recent-section,
 .performance-section {
     padding: 24px;
-    border-radius: var(--border-radius-lg);
+    border-radius: 3px;
+    border: 1px solid var(--glass-border);
 }
 
 /* ── Section Header ── */
@@ -125,21 +126,23 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    background: rgba(148, 0, 211, 0.12);
+    color: #ED80E9;
 }
 
 .view-all {
     background: transparent;
     border: none;
     color: #ED80E9;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 6px;
-    transition: background 200ms ease;
+    transition: background 150ms ease;
 }
 
 .view-all:hover {
@@ -150,35 +153,34 @@
 .recent-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .recent-item {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 14px;
+    padding: 13px 16px;
     border-radius: var(--border-radius-md);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: background 200ms ease, border-color 200ms ease;
+    background: var(--bg-secondary);
+    border: 1px solid var(--bg-tertiary);
+    transition: border-color 150ms ease;
     cursor: pointer;
 }
 
 .recent-item:hover {
-    background: rgba(148, 0, 211, 0.05);
-    border-color: rgba(148, 0, 211, 0.2);
+    border-color: rgba(148, 0, 211, 0.3);
 }
 
 .item-avatar {
     width: 40px;
     height: 40px;
-    border-radius: 12px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: white;
     flex-shrink: 0;
     letter-spacing: 0.03em;
@@ -191,21 +193,25 @@
 
 .item-name {
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-primary);
-    margin: 0 0 2px;
+    margin: 0 0 3px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: -0.01em;
 }
 
 .item-sub {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .item-meta {
@@ -213,82 +219,87 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 5px;
+    gap: 6px;
     flex-shrink: 0;
 }
 
 .item-time {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: 3px;
     margin: 0;
+    opacity: 0.8;
 }
 
 /* ── Status Badges ── */
 .status-badge {
     font-size: 0.68rem;
-    font-weight: 700;
+    font-weight: 600;
     padding: 3px 9px;
     border-radius: 999px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-transform: capitalize;
 }
 
 .status-badge.pending {
-    background: rgba(245, 158, 11, 0.12);
-    color: #fbbf24;
-    border: 1px solid rgba(245, 158, 11, 0.25);
+    background: rgba(148, 0, 211, 0.15);
+    color: #D3D3FF;
+    border: 1px solid rgba(148, 0, 211, 0.3);
 }
 
 .status-badge.confirmed {
-    background: rgba(148, 0, 211, 0.12);
-    color: #ED80E9;
-    border: 1px solid rgba(148, 0, 211, 0.25);
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.2);
 }
 
 .status-badge.completed {
-    background: rgba(52, 211, 153, 0.12);
-    color: #34d399;
-    border: 1px solid rgba(52, 211, 153, 0.25);
+    background: rgba(237, 128, 233, 0.1);
+    color: #ED80E9;
+    border: 1px solid rgba(237, 128, 233, 0.2);
 }
 
 .status-badge.cancelled {
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(239, 68, 68, 0.1);
     color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.25);
+    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* ── Quick Actions ── */
 .actions-grid {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .action-card {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 13px 14px;
-    border-radius: var(--border-radius-md);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 14px;
+    padding: 14px 4px;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--bg-tertiary);
     text-align: left;
     cursor: pointer;
-    transition: background 200ms ease, border-color 200ms ease;
+    transition: background 150ms ease;
+}
+
+.action-card:last-child {
+    border-bottom: none;
 }
 
 .action-card:hover {
     background: rgba(148, 0, 211, 0.05);
-    border-color: rgba(148, 0, 211, 0.2);
+    border-radius: var(--border-radius-sm);
 }
 
 .action-icon {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -303,14 +314,14 @@
 
 .action-title {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 }
 
 .action-desc {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     margin: 0;
     white-space: nowrap;
@@ -320,12 +331,13 @@
 
 .action-arrow {
     flex-shrink: 0;
-    opacity: 0.6;
-    transition: opacity 200ms ease, transform 200ms ease;
+    color: var(--text-muted);
+    opacity: 0.4;
+    transition: opacity 150ms ease, transform 150ms ease;
 }
 
 .action-card:hover .action-arrow {
-    opacity: 1;
+    opacity: 0.9;
     transform: translateX(2px);
 }
 
@@ -347,5 +359,7 @@
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
