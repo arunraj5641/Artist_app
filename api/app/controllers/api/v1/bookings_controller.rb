@@ -1,32 +1,46 @@
 module Api
   module V1
     class BookingsController < ApplicationController
-      include Crudable
-      load_and_authorize_resource except: [:create]
-
+      load_and_authorize_resource includes: [:service, :artist_profile, :customer], except: [:create]
       def create
-        @resource = Booking.new(resource_params)
+        @booking = Booking.new(resource_params)
         
         # Auto-assign customer_id if current user is a customer
         if current_user.customer?
-          @resource.customer_id = current_user.id
+          @booking.customer_id = current_user.id
         end
 
-        # Auto-assign artist_profile_id from the service if missing
-        if @resource.artist_profile_id.blank? && @resource.service_id.present?
-          service = Service.find_by(id: @resource.service_id)
-          @resource.artist_profile_id = service.artist_profile_id if service
-        end
+        return render_error(message: "Service is required") unless @booking.service_id
+        service = Service.find(@booking.service_id)
+        @booking.total_amount = service.price
+        @booking.artist_profile_id = service.artist_profile_id
+        
 
         # Default status
-        @resource.status ||= 'pending'
+        @booking.status = 'pending'
 
-        authorize! :create, @resource
+        authorize! :create, @booking
+        conflict = Booking.where(
+          artist_profile_id: @booking.artist_profile_id,
+          booking_date: @booking.booking_date
+        ).where(
+         "start_time < ? AND end_time > ?",
+         @booking.end_time,
+         @booking.start_time
+        ).exists?
 
-        if @resource.save
-          render_success(data: @resource, status: :created)
+if conflict
+  return render_error(message: "This time slot is not available")
+end
+
+        begin
+        if @booking.save
+          render_success(data: @booking, status: :created)
         else
-          render_error(errors: @resource.errors.full_messages)
+          render_error(errors: @booking.errors.full_messages)
+        end
+        rescue ActiveRecord::RecordNotUnique
+          render_error(message: "This time slot is already booked")
         end
       end
 
@@ -36,14 +50,8 @@ module Api
       end
       
       def show
-        booking = Booking
-                   .includes(:service, :artist_profile, :customer)
-                   .find(params[:id])
-
-        authorize! :read, booking
-
         render_success(
-          data: booking,
+          data: @booking,
           message: "Booking retrieved successfully"
         )
       end
@@ -51,6 +59,7 @@ module Api
       # GET /api/v1/bookings/my_bookings
       # Returns bookings where the current user is the customer
       def my_bookings
+        return render_error(message: "Only customers allowed", status: :forbidden) unless current_user.customer?
         bookings = Booking.where(customer_id: current_user.id).order(booking_date: :desc)
         bookings = paginate(bookings)
         render_paginated_success(bookings, message: "Your bookings retrieved successfully")
@@ -59,6 +68,7 @@ module Api
       # GET /api/v1/bookings/artist_bookings
       # Returns bookings assigned to the current user's artist profile
       def artist_bookings
+        return render_error(message: "Only artists allowed", status: :forbidden) unless current_user.artist?
         profile = current_user.artist_profile
         unless profile
           return render_error(message: "Artist profile not found", status: :not_found)
@@ -72,25 +82,21 @@ module Api
       def destroy
         # load_and_authorize_resource sets @booking and handles authorization
         # Just need to destroy it and respond
-        authorize! :destroy, @booking
+        @booking.destroy
         render_success(message: 'Booking deleted successfully')
       end
 
       def cancel
-        booking = Booking.find(params[:id])
-
-        # Authorization (only owner or admin)
-        authorize! :update, booking
 
         # Idempotent behavior: already cancelled
-         if booking.status == "cancelled"
+         if @booking.status == "cancelled"
            return render_success(
               message: "Booking already cancelled"
            )
          end
 
         # Business rule: only pending can be cancelled
-         unless booking.status == "pending"
+         unless @booking.status == "pending"
            return render_error(
             message: "Only pending bookings can be cancelled",
             status: :unprocessable_entity
@@ -99,10 +105,10 @@ module Api
 
          # Transaction for safety
          Booking.transaction do
-           booking.update!(status: "cancelled")
+           @booking.update!(status: "cancelled")
            
            # Side effect (placeholder for async job)
-           Rails.logger.info "Notify artist #{booking.artist_profile_id} about cancellation"
+           Rails.logger.info "Notify artist #{@booking.artist_profile_id} about cancellation"
          end
          # TODO: notify artist (we'll improve later)
 
@@ -122,13 +128,22 @@ module Api
       end
 
       def collection
-        if current_user.role == 'admin'
-          Booking.all
-        elsif current_user.role == 'artist'
-          Booking.where(artist_profile_id: current_user.artist_profile&.id)
-        else
-          Booking.where(customer_id: current_user.id)
-        end.order(booking_date: :desc)
+        base = Booking.includes(:service, :artist_profile, :payment, :customer)
+         
+        scoped =
+          if current_user.admin?
+            base
+          elsif current_user.artist?
+            base.where(artist_profile_id: current_user.artist_profile&.id)
+          else
+            base.where(customer_id: current_user.id)
+          end
+
+        if params[:status].present?
+          scoped = scoped.where(status: params[:status])
+        end
+        
+        scoped.order(booking_date: :desc, created_at: :desc)
       end
     end
   end
