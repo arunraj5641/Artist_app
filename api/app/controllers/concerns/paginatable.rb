@@ -5,14 +5,15 @@ module Paginatable
     scope.page(params[:page]).per(params[:per_page] || per_page)
   end
 
-  def render_paginated_success(scope, message: 'Success', status: :ok, extra_meta: {})
-    serialized_data = ActiveModelSerializers::SerializableResource.new(scope)
+  def render_paginated_success(scope, message: 'Success', status: :ok, serializer: nil, extra_meta: {})
+    paginated_scope = paginate(scope)
+    serialized_data = serialize_data(paginated_scope, serializer)
     meta = {
-      current_page: scope.current_page,
-      next_page: scope.next_page,
-      prev_page: scope.prev_page,
-      total_pages: scope.total_pages,
-      total_count: scope.total_count
+      current_page: paginated_scope.current_page,
+      next_page: paginated_scope.next_page,
+      prev_page: paginated_scope.prev_page,
+      total_pages: paginated_scope.total_pages,
+      total_count: paginated_scope.total_count
     }.merge(extra_meta || {})
 
     render json: {

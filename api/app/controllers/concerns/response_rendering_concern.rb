@@ -12,8 +12,13 @@ module ResponseRenderingConcern
   private
   def serialize_data(data, serializer=nil)
     return nil if data.nil?
+
     if serializer
-      ActiveModelSerializers::SerializableResource.new(data, serializer: serializer)
+      if data.respond_to?(:to_ary)
+        ActiveModelSerializers::SerializableResource.new(data, each_serializer: serializer)
+      else
+        ActiveModelSerializers::SerializableResource.new(data, serializer: serializer)
+      end
     else
       ActiveModelSerializers::SerializableResource.new(data)
     end

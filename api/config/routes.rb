@@ -38,7 +38,11 @@ Rails.application.routes.draw do
       end
 
       resources :availabilities
-      resources :reviews
+      resources :reviews do
+        collection do
+          get :my_reviews
+        end 
+      end
       resources :payments
 
       # Nested: artist availability
