@@ -7,6 +7,9 @@ module Api
       def create
         @user = User.find_by_email(login_params[:email])
         if @user&.authenticate(login_params[:password])
+          if @user.status != "active"
+             return render_error(message: "Account is not active", status: :forbidden)
+          end
           token = ::JsonWebToken.encode(user_id: @user.id)
           time = Time.now + 24.hours.to_i
           render_success(
@@ -36,7 +39,7 @@ module Api
       # GET /api/v1/me
       def me
         render_success(
-          data: current_user,
+          data: current_user.slice(:id, :name, :email, :role),
           message: 'Current user retrieved successfully'
         )
       end
@@ -46,7 +49,7 @@ module Api
       def update_profile
         if current_user.update(profile_params)
           render_success(
-            data: current_user,
+            data: current_user.slice(:id, :name, :email, :role),
             message: "Profile updated successfully"
           )
         else

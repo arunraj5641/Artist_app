@@ -50,6 +50,15 @@ Rails.application.routes.draw do
       get "artists/:id", to: "artist_profiles#show"
       get "artists/:id/services", to: "services#artist_services"
       get "artists/:id/availability", to: "availabilities#artist_availability"
+
+
+      namespace :admin do
+         resources :artist_profiles, only: [] do
+           member do
+             patch :approve
+           end
+         end
+      end
       
     end
   end

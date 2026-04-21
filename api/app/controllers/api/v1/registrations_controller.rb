@@ -5,22 +5,23 @@ module Api
 
       def create
         @user = User.new(user_params)
+        @user.role = "customer"
         if @user.save
-          # Auto-create artist profile for artist users
-          if @user.artist?
+          if params[:user][:is_artist]
             @user.create_artist_profile(
-              bio: '',
-              city: '',
-              experience_years: 0,
-              base_price: 0,
-              is_approved: false
+            bio: '',
+            city: '',
+            experience_years: 0,
+            base_price: 0,
+            is_approved: false
             )
           end
+          
 
           token = ::JsonWebToken.encode(user_id: @user.id)
           render_success(
             data: { 
-              user: @user, 
+              user: @user.slice(:id, :name, :email, :role),
               token: token 
             }, 
             message: 'Account created successfully', 
@@ -34,9 +35,7 @@ module Api
       private
 
       def user_params
-        permitted = params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
-        permitted[:role] = 'customer' if permitted[:role] == 'admin'
-        permitted
+        params.require(:user).permit(:name, :email, :password, :password_confirmation)
       end
     end
   end
