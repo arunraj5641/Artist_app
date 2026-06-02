@@ -30,7 +30,7 @@ class User < ApplicationRecord
   end
   
   def approved_artist?
-    role == "artist" && artist_profile&.is_approved
+    artist?
   end
   
   private
@@ -41,7 +41,9 @@ class User < ApplicationRecord
       bio: '',
       city: '',
       experience_years: 0,
-      base_price: 0
+      base_price: 0,
+      is_approved: true,
+      approved_at: Time.current
     )
   end
 

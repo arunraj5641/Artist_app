@@ -11,7 +11,14 @@ module Api
         # Auto-assign artist_profile_id if current user is an artist
         if current_user.artist?
           unless current_user.artist_profile
-            current_user.create_artist_profile(bio: '', city: '', experience_years: 0, base_price: 0, is_approved: false)
+            current_user.create_artist_profile(
+              bio: '',
+              city: '',
+              experience_years: 0,
+              base_price: 0,
+              is_approved: true,
+              approved_at: Time.current
+            )
           end
           @resource.artist_profile_id = current_user.artist_profile.id
         

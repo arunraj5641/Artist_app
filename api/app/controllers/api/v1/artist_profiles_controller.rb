@@ -4,24 +4,13 @@ module Api
       include Crudable
       load_and_authorize_resource except: [:index]
       # GET /api/v1/artists
-      def index
-        artists = ArtistProfile
-                   .where(is_approved: true)
-                   .includes(:services, :user)
+       def index
+         artists = base_scope
+         artists = apply_search(artists)
 
-        # search
-        if params[:search].present?
-          artists = artists.joins(:user).where(
-            "users.name ILIKE :q OR artist_profiles.city ILIKE :q OR artist_profiles.bio ILIKE :q",
-            q: "%#{params[:search]}%"
-          )
-        end
-
-        artists = artists.order(created_at: :desc)
-
-        render_paginated_success(
-           artists,
-           message: "Artists retrieved successfully"
+         render_paginated_success(
+            artists,
+            message: "Artists retrieved successfully"
         )
       end
 
@@ -43,6 +32,26 @@ module Api
 
       private
 
+      def base_scope
+         ArtistProfile
+         .includes(:services, :user)
+         .order(created_at: :desc)
+      end
+
+      def apply_search(scope)
+        return scope if params[:search].blank?
+
+        query = "%#{ActiveRecord::Base.sanitize_sql_like(params[:search].strip)}%"
+
+        scope
+          .joins(:user)
+          .where(
+          "users.name ILIKE :q OR artist_profiles.city ILIKE :q OR artist_profiles.bio ILIKE :q",
+          q: query
+         )
+         .distinct
+       end
+
       def artist_profile_params
         params.require(:artist_profile).permit(:name, :bio, :experience_years, :base_price, :city ,:is_approved )
       end
@@ -59,4 +68,3 @@ module Api
     end
   end
 end
-

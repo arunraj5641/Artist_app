@@ -330,3 +330,73 @@
   font-weight: 600;
   color: #e5e7eb;
 }
+
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+
+.summary-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summary-stars {
+  font-size: 16px;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.summary-count {
+  font-size: 13px;
+  color: #9ca3af;
+  min-width: max-content;
+}
+
+.review-card__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.review-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-card__rating .rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.review-comment {
+  font-size: 14px;
+  color: #d1d5db;
+  line-height: 1.75;
+  margin: 0;
+}

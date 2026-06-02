@@ -5,16 +5,20 @@ module Api
 
       def create
         @user = User.new(user_params)
-        @user.role = "customer"
+        @user.role = requested_role
         if @user.save
-          if params[:user][:is_artist]
-            @user.create_artist_profile(
-            bio: '',
-            city: '',
-            experience_years: 0,
-            base_price: 0,
-            is_approved: false
+          if @user.artist?
+            profile = @user.artist_profile || @user.build_artist_profile
+            profile.assign_attributes(
+              name: @user.name,
+              bio: '',
+              city: '',
+              experience_years: 0,
+              base_price: 0,
+              is_approved: true,
+              approved_at: Time.current
             )
+            profile.save!
           end
           
 
@@ -33,6 +37,10 @@ module Api
       end
 
       private
+
+      def requested_role
+        params[:user][:role] == "artist" ? "artist" : "customer"
+      end
 
       def user_params
         params.require(:user).permit(:name, :email, :password, :password_confirmation)

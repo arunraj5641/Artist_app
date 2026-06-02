@@ -470,7 +470,14 @@ const MyBookingsPage: React.FC = () => {
                           )}
 
                         {isCustomer && (
-                          <button onClick={() => handleDelete(booking.id)}>
+                          <button
+                            className="icon-btn delete"
+                            type="button"
+                            title="Delete Booking"
+                            aria-label="Delete booking"
+                            onClick={() => handleDelete(booking.id)}
+                            disabled={isDeleting}
+                          >
                             <Trash2 size={14} />
                           </button>
                         )}

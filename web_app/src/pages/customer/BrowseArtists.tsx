@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useArtistProfiles } from '../../hooks/useArtistProfiles';
 import { useBookings } from '../../hooks/useBookings';
 import type { ArtistProfile } from '../../services/ArtistProfileService';
@@ -36,6 +36,7 @@ const BrowseArtistsPage: React.FC = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedArtist, setSelectedArtist] = useState<ArtistProfile | null>(null);
+    const [bookingArtist, setBookingArtist] = useState<ArtistProfile | null>(null);
     const [bookingService, setBookingService] = useState<ServiceOffering | null>(null);
     const [bookingForm, setBookingForm] = useState<BookingForm>({
         service_id: '',
@@ -59,11 +60,12 @@ const BrowseArtistsPage: React.FC = () => {
     const getDisplayName = (artist: ArtistProfile) => artist.name || 'Artist';
     const getInitial = (artist: ArtistProfile) => (artist.name || 'A').charAt(0).toUpperCase();
 
-    const openBooking = (service: ServiceOffering, artistProfileId: string) => {
+    const openBooking = (service: ServiceOffering, artist: ArtistProfile) => {
+        setBookingArtist(artist);
         setBookingService(service);
         setBookingForm({
             service_id: service.id,
-            artist_profile_id: artistProfileId,
+            artist_profile_id: artist.id,
             booking_date: '',
             start_time: '',
             end_time: '',
@@ -80,6 +82,7 @@ const BrowseArtistsPage: React.FC = () => {
             onSuccess: () => {
                 showToast('Booking created successfully! 🎉', 'success');
                 setBookingService(null);
+                setBookingArtist(null);
             }
         });
     };
@@ -202,7 +205,7 @@ const BrowseArtistsPage: React.FC = () => {
                       <p className="stat-lbl">Yrs Exp</p>
                     </div>
                     <div className="artist-mini-stat">
-                      <p className="stat-val">${artist.base_price || 0}</p>
+                      <p className="stat-val">₹{artist.base_price || 0}</p>
                       <p className="stat-lbl">Base Price</p>
                     </div>
                     <div className="artist-mini-stat">
@@ -234,11 +237,14 @@ const BrowseArtistsPage: React.FC = () => {
                           </div>
                           <div className="customer-service-right">
                             <span className="customer-service-price">
-                              ${service.price}
+                              ₹{service.price}
                             </span>
                             <button
                               className="book-btn"
-                              onClick={() => openBooking(service, artist.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openBooking(service, artist);
+                              }}
                             >
                               <CalendarPlus size={13} /> Book
                             </button>
@@ -261,7 +267,10 @@ const BrowseArtistsPage: React.FC = () => {
                     <button
                       className="artist-action-btn view"
                       title="View Profile"
-                      onClick={() => setSelectedArtist(artist)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedArtist(artist);
+                      }}
                     >
                       <Star size={14} />
                     </button>
@@ -450,7 +459,7 @@ const BrowseArtistsPage: React.FC = () => {
                                 <button
                                   className="book-btn"
                                   onClick={() => {
-                                    openBooking(s, selectedArtist.id);
+                                    openBooking(s, selectedArtist);
                                     setSelectedArtist(null);
                                   }}
                                 >
@@ -476,9 +485,12 @@ const BrowseArtistsPage: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={(e) =>
-                e.target === e.currentTarget && setBookingService(null)
-              }
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  setBookingService(null);
+                  setBookingArtist(null);
+                }
+              }}
             >
               <motion.div
                 className="artist-modal-card"
@@ -491,7 +503,10 @@ const BrowseArtistsPage: React.FC = () => {
                   <h3>Book Service</h3>
                   <button
                     className="artist-modal-close"
-                    onClick={() => setBookingService(null)}
+                    onClick={() => {
+                      setBookingService(null);
+                      setBookingArtist(null);
+                    }}
                   >
                     <X size={15} />
                   </button>
@@ -503,10 +518,11 @@ const BrowseArtistsPage: React.FC = () => {
                       <p className="booking-service-name">
                         {bookingService.name}
                       </p>
-                      <p className="booking-service-meta">
-                        <Clock size={12} /> {bookingService.duration_minutes}{" "}
-                        min
-                      </p>
+                      {bookingArtist && (
+                        <p className="booking-service-meta" style={{ marginBottom: '8px' }}>
+                          Booking with <strong>{bookingArtist.name}</strong>
+                        </p>
+                      )}
                       {bookingService.description && (
                         <p className="booking-service-desc">
                           {bookingService.description}
